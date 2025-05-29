@@ -24,22 +24,25 @@ Next.js로 구축된 개인 운동 관리 애플리케이션입니다.
 ### 설치
 
 1. 리포지토리 클론
+
 ```bash
 git clone https://github.com/jwonder83/jwonder.git
 cd jwonder
 ```
 
-2. 의존성 설치
+1. 의존성 설치
+
 ```bash
 npm install
 ```
 
-3. 개발 서버 실행
+1. 개발 서버 실행
+
 ```bash
 npm run dev
 ```
 
-4. 브라우저에서 [http://localhost:3000](http://localhost:3000) 열기
+1. 브라우저에서 [http://localhost:3000](http://localhost:3000) 열기
 
 ## 스크립트
 
