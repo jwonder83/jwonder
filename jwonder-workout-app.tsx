@@ -94,6 +94,10 @@ const JwonderWorkOut = () => {
     
     // 1RM 계산기
     { id: 'calculator', title: '1RM 계산기', icon: '📊', size: 'large', category: 'calculator', color: 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-500' },
+    
+    // 새로운 카드 섹션들
+    { id: 'workout-log', title: '운동 기록', icon: '📋', size: 'medium', category: 'workout-log', color: 'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600' },
+    { id: 'community', title: '커뮤니티', icon: '👥', size: 'small', category: 'community', color: 'bg-gradient-to-br from-violet-400 via-purple-500 to-indigo-600' },
   ]);
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -2131,6 +2135,291 @@ const JwonderWorkOut = () => {
             </div>
           </div>
         );
+      case 'workout-log':
+        return (
+          <div className="p-6 space-y-6 relative">
+            {/* 카툰풍 배경 장식 요소들 */}
+            <div className="absolute top-16 right-20 text-3xl text-emerald-400/40 animate-bounce">📋</div>
+            <div className="absolute bottom-24 left-16 text-2xl text-teal-400/40 animate-pulse">📊</div>
+            <div className="absolute top-1/3 left-12 text-xl text-cyan-400/40 animate-ping">✅</div>
+            
+            <div className="bg-gradient-to-br from-emerald-200/90 to-teal-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
+              {/* 카툰풍 말풍선 꼬리 */}
+              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-emerald-200 to-teal-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
+              
+              {/* 카툰풍 배경 패턴 */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
+              
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
+                  <BookOpen className="w-10 h-10 text-white drop-shadow-lg" />
+                </div>
+                <div>
+                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">운동 기록</h2>
+                  <p className="text-emerald-800 font-bold text-xl">📈 진행상황을 추적하세요! 📈</p>
+                  {/* 카툰풍 효과음 */}
+                  <div className="absolute -top-2 right-4 text-2xl font-black text-green-500/60 rotate-12 animate-pulse">TRACK!</div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 relative z-10">
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <Calendar className="w-5 h-5 text-white" />
+                    </div>
+                    운동 일지
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-emerald-300 to-teal-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                      <h4 className="font-black text-black text-lg mb-2">오늘의 운동 💪</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center p-2 bg-white rounded-xl border-2 border-black">
+                          <span className="font-bold text-gray-800">스쿼트</span>
+                          <span className="bg-green-500 text-white px-2 py-1 rounded-full text-sm font-black">3세트 완료</span>
+                        </div>
+                        <div className="flex justify-between items-center p-2 bg-white rounded-xl border-2 border-black">
+                          <span className="font-bold text-gray-800">벤치프레스</span>
+                          <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-sm font-black">2세트 진행중</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                      <h4 className="font-black text-black text-lg mb-2">이번 주 통계 📊</h4>
+                      <div className="text-sm font-semibold text-gray-800">
+                        <p>• 총 운동 일수: 4일</p>
+                        <p>• 총 세트 수: 32세트</p>
+                        <p>• 평균 운동 시간: 65분</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    진행 상황
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-200 to-emerald-200 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-3">근력 향상 🏆</h4>
+                      <div className="space-y-3">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-bold text-gray-800">스쿼트 1RM</span>
+                            <span className="font-black text-green-600">+15kg ⬆️</span>
+                          </div>
+                          <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black">
+                            <div className="bg-green-500 h-full rounded-full border-r-2 border-black" style={{width: '75%'}}></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-bold text-gray-800">벤치프레스 1RM</span>
+                            <span className="font-black text-blue-600">+8kg ⬆️</span>
+                          </div>
+                          <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black">
+                            <div className="bg-blue-500 h-full rounded-full border-r-2 border-black" style={{width: '60%'}}></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">📈</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎯</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">운동 목표 및 성취</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="bg-gradient-to-br from-yellow-300 to-orange-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <div className="text-center">
+                      <div className="text-3xl mb-2">🎯</div>
+                      <h4 className="font-black text-black text-lg mb-2">이달의 목표</h4>
+                      <p className="font-bold text-gray-800">20회 운동 완료</p>
+                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
+                        <span className="text-orange-600 font-black">16/20 완료</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-300 to-emerald-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <div className="text-center">
+                      <div className="text-3xl mb-2">🏆</div>
+                      <h4 className="font-black text-black text-lg mb-2">성취 배지</h4>
+                      <p className="font-bold text-gray-800">연속 출석 7일</p>
+                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
+                        <span className="text-green-600 font-black">달성!</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <div className="text-center">
+                      <div className="text-3xl mb-2">🔥</div>
+                      <h4 className="font-black text-black text-lg mb-2">연속 기록</h4>
+                      <p className="font-bold text-gray-800">운동 스트릭</p>
+                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
+                        <span className="text-purple-600 font-black">7일째 🔥</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'community':
+        return (
+          <div className="p-6 space-y-6 relative">
+            {/* 카툰풍 배경 장식 요소들 */}
+            <div className="absolute top-20 left-16 text-3xl text-violet-400/40 animate-bounce">👥</div>
+            <div className="absolute bottom-20 right-20 text-2xl text-purple-400/40 animate-pulse">🏆</div>
+            <div className="absolute top-1/2 right-12 text-xl text-indigo-400/40 animate-ping">💬</div>
+            
+            <div className="bg-gradient-to-br from-violet-200/90 to-purple-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
+              {/* 카툰풍 말풍선 꼬리 */}
+              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-violet-200 to-purple-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
+              
+              {/* 카툰풍 배경 패턴 */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
+              
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
+                  <Users className="w-10 h-10 text-white drop-shadow-lg" />
+                </div>
+                <div>
+                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">커뮤니티</h2>
+                  <p className="text-violet-800 font-bold text-xl">🤝 함께 운동해요! 🤝</p>
+                  {/* 카툰풍 효과음 */}
+                  <div className="absolute -top-2 right-4 text-2xl font-black text-blue-500/60 rotate-12 animate-pulse">CONNECT!</div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 relative z-10">
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <Users className="w-5 h-5 text-white" />
+                    </div>
+                    운동 친구
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-violet-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                      <h4 className="font-black text-black text-lg mb-3">온라인 친구들 👫</h4>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between p-2 bg-white rounded-xl border-2 border-black">
+                          <div className="flex items-center">
+                            <div className="w-8 h-8 bg-green-500 rounded-full mr-2 border-2 border-black flex items-center justify-center">
+                              <span className="text-white font-bold text-xs">K</span>
+                            </div>
+                            <span className="font-bold text-gray-800">김헬스</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-xs font-bold">온라인</span>
+                            <span className="text-sm">🔥 15일</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between p-2 bg-white rounded-xl border-2 border-black">
+                          <div className="flex items-center">
+                            <div className="w-8 h-8 bg-blue-500 rounded-full mr-2 border-2 border-black flex items-center justify-center">
+                              <span className="text-white font-bold text-xs">P</span>
+                            </div>
+                            <span className="font-bold text-gray-800">박근육</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold">운동중</span>
+                            <span className="text-sm">💪 22일</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                    챌린지
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                      <h4 className="font-black text-black text-lg mb-2">이번 주 챌린지 🏃‍♂️</h4>
+                      <div className="bg-white rounded-xl p-3 border-2 border-black">
+                        <p className="font-bold text-gray-800 mb-2">30일 스쿼트 챌린지</p>
+                        <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black mb-2">
+                          <div className="bg-orange-500 h-full rounded-full border-r-2 border-black" style={{width: '40%'}}></div>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="font-bold text-gray-600">12/30일 완료</span>
+                          <span className="font-black text-orange-600">참여자 1,234명</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                      <h4 className="font-black text-black text-lg mb-2">팀 챌린지 💪</h4>
+                      <div className="bg-white rounded-xl p-3 border-2 border-black">
+                        <p className="font-bold text-gray-800 mb-2">주간 총 운동시간 경쟁</p>
+                        <div className="text-center">
+                          <span className="text-2xl font-black text-green-600">2위</span>
+                          <p className="text-sm font-bold text-gray-600">우리 팀: 285분</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">💬</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🌟</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">커뮤니티 피드</h3>
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-blue-200 to-cyan-200 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-10 h-10 bg-blue-500 rounded-full border-2 border-black flex items-center justify-center">
+                        <span className="text-white font-bold">김</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-bold text-gray-800"><span className="text-blue-600">김헬스</span>님이 데드리프트 100kg 달성! 🎉</p>
+                        <p className="text-sm text-gray-600 mt-1">2시간 전</p>
+                        <div className="mt-2 flex space-x-2">
+                          <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full text-xs font-bold">❤️ 12</span>
+                          <span className="bg-yellow-300 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold">👏 8</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-r from-green-200 to-emerald-200 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-10 h-10 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
+                        <span className="text-white font-bold">박</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-bold text-gray-800"><span className="text-green-600">박근육</span>님이 새로운 운동 루틴을 공유했습니다! 💪</p>
+                        <p className="text-sm text-gray-600 mt-1">5시간 전</p>
+                        <div className="mt-2 flex space-x-2">
+                          <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full text-xs font-bold">❤️ 25</span>
+                          <span className="bg-blue-300 text-blue-800 px-2 py-1 rounded-full text-xs font-bold">💬 7</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       default:
         return (
           <div className="p-6 space-y-6 relative">
@@ -2183,529 +2472,6 @@ const JwonderWorkOut = () => {
           {/* 카툰풍 효과음 텍스트들 */}
           <div className="absolute top-32 left-20 text-6xl font-black text-red-500/20 rotate-12 select-none pointer-events-none">POW!</div>
           <div className="absolute top-60 right-32 text-4xl font-black text-blue-500/20 -rotate-12 select-none pointer-events-none">BAM!</div>
-          <div className="absolute bottom-40 left-32 text-5xl font-black text-green-500/20 rotate-6 select-none pointer-events-none">BOOM!</div>
-          <div className="absolute bottom-20 right-20 text-3xl font-black text-purple-500/20 -rotate-6 select-none pointer-events-none">ZAP!</div>
-          
-          {/* 카툰풍 별표와 장식 요소들 */}
-          <div className="absolute top-20 left-10 text-2xl text-yellow-400/40 animate-spin-slow">⭐</div>
-          <div className="absolute top-40 right-20 text-3xl text-pink-400/40 animate-bounce">💫</div>
-          <div className="absolute bottom-40 left-20 text-2xl text-blue-400/40 animate-pulse">✨</div>
-          <div className="absolute bottom-60 right-10 text-3xl text-green-400/40 animate-bounce animate-delay-1000">🌟</div>
-          <div className="absolute top-1/2 left-16 text-xl text-red-400/40 animate-ping">💥</div>
-          <div className="absolute top-1/3 right-16 text-xl text-orange-400/40 animate-pulse animate-delay-500">⚡</div>
-          
-          {/* 카툰풍 기하학적 모양들 */}
-          <div className="absolute top-24 right-1/4 w-8 h-8 bg-red-400/30 rotate-45 animate-pulse"></div>
-          <div className="absolute bottom-32 left-1/4 w-6 h-6 bg-blue-400/30 rounded-full animate-bounce"></div>
-          <div className="absolute top-1/2 right-8 w-4 h-8 bg-green-400/30 animate-pulse animate-delay-1000"></div>
-        </div>
-
-        {/* 카툰 스타일 헤더 */}
-        <div className="max-w-6xl mx-auto mb-8 relative z-10 p-4">
-          <div className="relative">
-            {/* 만화책 말풍선 스타일 배경 */}
-            <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
-              {/* 말풍선 꼬리 */}
-              <div className="absolute -bottom-4 left-8 w-8 h-8 bg-white border-l-4 border-b-4 border-black transform rotate-45"></div>
-              
-              <div className="flex justify-between items-center">
-                <div 
-                  className="flex items-center space-x-4 cursor-pointer hover:scale-105 transition-all duration-300 rounded-2xl p-2 hover:bg-yellow-100"
-                  onClick={() => setSelectedCard(null)}
-                  title="메인 페이지로 이동"
-                >
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-4 border-black">
-                    <Dumbbell className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-4xl font-black text-black cartoon-text">
-                      JWONDER
-                    </h1>
-                    <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {false && (
-            <div className="mt-6 bg-white rounded-3xl p-6 animate-fadeIn border-4 border-black shadow-cartoon">
-              <div className="text-black space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-black font-bold text-lg">저장된 프로그램</span>
-                  <span className="bg-orange-300 text-black px-4 py-2 rounded-full text-lg font-black border-2 border-black">
-                    {userData.programs.length}개
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-black font-bold text-lg">1RM 기록</span>
-                  <span className="bg-emerald-300 text-black px-4 py-2 rounded-full text-lg font-black border-2 border-black">
-                    {userData.oneRMRecords.length}개
-                  </span>
-                </div>
-                <div className="mt-4 p-4 bg-yellow-200 rounded-2xl border-3 border-black">
-                  <p className="text-black font-bold text-lg">💡 팁: 카드를 드래그해서 순서를 변경할 수 있습니다!</p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="max-w-4xl mx-auto relative z-10">
-          {renderCardContent()}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-orange-100 to-pink-200 relative overflow-hidden">
-      {/* 카툰 스타일 배경 장식 요소들 */}
-      <div className="absolute inset-0">
-        {/* 카툰풍 그라데이션 오버레이 */}
-        <div className="absolute inset-0 bg-gradient-radial from-yellow-300/50 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-radial from-cyan-200/40 via-transparent to-transparent"></div>
-        
-        {/* 카툰 스타일 점 패턴 */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-30 bg-cartoon-dots"></div>
-        
-        {/* 카툰풍 효과음 텍스트들 */}
-        <div className="absolute top-32 left-20 text-6xl font-black text-red-500/20 rotate-12 select-none pointer-events-none">POW!</div>
-        <div className="absolute top-60 right-32 text-4xl font-black text-blue-500/20 -rotate-12 select-none pointer-events-none">BAM!</div>
-        <div className="absolute bottom-40 left-32 text-5xl font-black text-green-500/20 rotate-6 select-none pointer-events-none">BOOM!</div>
-        <div className="absolute bottom-20 right-20 text-3xl font-black text-purple-500/20 -rotate-6 select-none pointer-events-none">ZAP!</div>
-        
-        {/* 카툰풍 별표와 장식 요소들 */}
-        <div className="absolute top-20 left-10 text-2xl text-yellow-400/40 animate-spin-slow">⭐</div>
-        <div className="absolute top-40 right-20 text-3xl text-pink-400/40 animate-bounce">💫</div>
-        <div className="absolute bottom-40 left-20 text-2xl text-blue-400/40 animate-pulse">✨</div>
-        <div className="absolute bottom-60 right-10 text-3xl text-green-400/40 animate-bounce animate-delay-1000">🌟</div>
-        <div className="absolute top-1/2 left-16 text-xl text-red-400/40 animate-ping">💥</div>
-        <div className="absolute top-1/3 right-16 text-xl text-orange-400/40 animate-pulse animate-delay-500">⚡</div>
-        
-        {/* 카툰풍 기하학적 모양들 */}
-        <div className="absolute top-24 right-1/4 w-8 h-8 bg-red-400/30 rotate-45 animate-pulse"></div>
-        <div className="absolute bottom-32 left-1/4 w-6 h-6 bg-blue-400/30 rounded-full animate-bounce"></div>
-        <div className="absolute top-1/2 right-8 w-4 h-8 bg-green-400/30 animate-pulse animate-delay-1000"></div>
-      </div>
-
-      {/* 카툰 스타일 헤더 */}
-      <div className="max-w-6xl mx-auto mb-8 relative z-10 p-4">
-        <div className="relative">
-          {/* 만화책 말풍선 스타일 배경 */}
-          <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
-            {/* 말풍선 꼬리 */}
-            <div className="absolute -bottom-4 left-8 w-8 h-8 bg-white border-l-4 border-b-4 border-black transform rotate-45"></div>
-            
-            <div className="flex justify-between items-center">
-              <div 
-                className="flex items-center space-x-4 cursor-pointer hover:scale-105 transition-all duration-300 rounded-2xl p-2 hover:bg-yellow-100"
-                onClick={() => setSelectedCard(null)}
-                title="메인 페이지로 이동"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-4 border-black">
-                  <Dumbbell className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-black text-black cartoon-text">
-                    JWONDER
-                  </h1>
-                  <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {false && (
-          <div className="mt-6 bg-white rounded-3xl p-6 animate-fadeIn border-4 border-black shadow-cartoon">
-            <div className="text-black space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-black font-bold text-lg">저장된 프로그램</span>
-                <span className="bg-orange-300 text-black px-4 py-2 rounded-full text-lg font-black border-2 border-black">
-                  {userData.programs.length}개
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-black font-bold text-lg">1RM 기록</span>
-                <span className="bg-emerald-300 text-black px-4 py-2 rounded-full text-lg font-black border-2 border-black">
-                  {userData.oneRMRecords.length}개
-                </span>
-              </div>
-              <div className="mt-4 p-4 bg-yellow-200 rounded-2xl border-3 border-black">
-                <p className="text-black font-bold text-lg">💡 팁: 카드를 드래그해서 순서를 변경할 수 있습니다!</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 메인 그리드 - 카드 스타일 강화 */}
-      <div className="max-w-6xl mx-auto relative z-10 p-4">
-        <div className="grid grid-cols-4 md:grid-cols-6 gap-6 auto-rows-fr">
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              data-card-id={card.id}
-              draggable
-              onDragStart={(e) => handleDragStart(e, card)}
-              onDragOver={handleDragOver}
-              onDrop={(e) => handleDrop(e, card)}
-              onDragEnd={handleDragEnd}
-              onTouchStart={(e) => handleTouchStart(e, card)}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={(e) => handleTouchEnd(e)}
-              onTouchCancel={handleTouchCancel}
-              className={`${getCardSizeClass(card.size)} ${card.color} rounded-2xl p-4 
-                flex flex-col justify-center items-center text-white cursor-pointer
-                hover:scale-110 transition-all duration-300 shadow-cartoon hover:shadow-cartoon-hover
-                ${draggedCard?.id === card.id ? 'opacity-60 rotate-2 scale-110 z-50' : ''}
-                min-h-[100px] backdrop-blur-sm bg-opacity-90 pointer-events-auto
-                border-4 border-black hover:border-black
-                relative overflow-hidden group
-                touch-manipulation select-none user-select-none
-                active:scale-95 will-change-transform cartoon-card`}
-              onClick={() => handleCardClick(card)}
-            >
-              {/* 카드 내부 글로우 효과 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              
-              {/* 카드 내부 카툰 패턴 */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-white/20 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"></div>
-              <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/20 rounded-full translate-y-8 -translate-x-8 group-hover:scale-150 transition-transform duration-500"></div>
-              
-              {/* 아이콘과 텍스트 */}
-              <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                <div className="mb-2 p-3 bg-white rounded-2xl backdrop-blur-sm group-hover:bg-yellow-100 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 shadow-cartoon border-3 border-black">
-                  <div className={`${getIconSize(card.size)} flex items-center justify-center font-black drop-shadow-2xl filter group-hover:drop-shadow-cartoon transition-all duration-300 transform group-hover:scale-110 group-hover:rotate-6`}>
-                    {card.icon}
-                  </div>
-                </div>
-                <h3 className={`${getTextSize(card.size)} text-center pointer-events-none text-white drop-shadow-cartoon group-hover:scale-105 transition-all duration-300`}>
-                  {card.title}
-                </h3>
-              </div>
-              
-              {/* 호버 시 나타나는 카툰 장식 요소 */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute top-2 right-2 text-yellow-300 text-xs animate-ping">✨</div>
-                <div className="absolute bottom-2 left-2 text-white text-xs animate-ping animate-delay-500">💫</div>
-              </div>
-              
-              {/* 카툰 스타일 드래그 인디케이터 */}
-              <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-80 transition-opacity duration-300">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                </div>
-                <div className="flex space-x-1 mt-1">
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                  <div className="w-2 h-2 bg-black rounded-full"></div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 카툰 스타일 푸터 */}
-      <div className="max-w-6xl mx-auto mt-16 text-center relative z-10 p-4">
-        <div className="bg-white rounded-3xl p-8 border-4 border-black shadow-cartoon relative">
-          {/* 카툰풍 장식 요소들 */}
-          <div className="absolute -top-2 -left-2 text-2xl">🌟</div>
-          <div className="absolute -top-2 -right-2 text-2xl">💪</div>
-          <div className="absolute -bottom-2 -left-2 text-2xl">⚡</div>
-          <div className="absolute -bottom-2 -right-2 text-2xl">🏆</div>
-          
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-pink-600 rounded-full flex items-center justify-center mr-4 border-3 border-black shadow-cartoon">
-              <Dumbbell className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-black font-black text-2xl">JWONDER</span>
-          </div>
-          <p className="text-black font-bold text-xl mb-6">💖 Work Out! 💖</p>
-          <div className="flex items-center justify-center space-x-8 text-lg text-black font-bold">
-            <span>© 2025 Jwonder Work Out</span>
-            <span className="text-2xl">•</span>
-            <span>Made with Jwonder</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 카툰 스타일 CSS 애니메이션 */}
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out;
-        }
-        
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
-        }
-        
-        /* 카툰 스타일 그림자 */
-        .shadow-cartoon {
-          box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
-        }
-        
-        .shadow-cartoon-hover {
-          box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 1);
-        }
-        
-        /* 카툰 스타일 텍스트 효과 */
-        .cartoon-text {
-          text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-        }
-        
-        .drop-shadow-cartoon {
-          filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.8));
-        }
-        
-        /* 카툰 스타일 배경 패턴 */
-        .bg-cartoon-dots {
-          background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='40' cy='40' r='4'/%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3Ccircle cx='60' cy='20' r='2'/%3E%3Ccircle cx='20' cy='60' r='2'/%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        
-        .bg-gradient-radial {
-          background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
-        }
-        
-        /* 카툰 카드 효과 */
-        .cartoon-card {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .cartoon-card:hover {
-          transform: scale(1.1) rotate(2deg);
-        }
-        
-        /* 카툰 스타일 테두리 */
-        .border-3 {
-          border-width: 3px;
-        }
-        
-        .animate-delay-500 {
-          animation-delay: 0.5s;
-        }
-        
-        .animate-delay-1000 {
-          animation-delay: 1s;
-        }
-        
-        .animate-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        /* 카드별 특별 아이콘 효과 - 카툰 스타일로 강화 */
-        [data-card-id="squat"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.2) rotate(15deg) translateY(-3px);
-          filter: drop-shadow(0 8px 0px rgba(59, 130, 246, 1));
-          text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-        }
-        
-        [data-card-id="bench"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.25) rotate(-12deg) translateY(-4px);
-          filter: drop-shadow(0 10px 0px rgba(239, 68, 68, 1));
-          text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-          animation: cartoon-muscle-flex 1s ease-in-out infinite;
-        }
-        
-        [data-card-id="deadlift"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.3) rotate(20deg) translateY(-5px);
-          filter: drop-shadow(0 12px 0px rgba(147, 51, 234, 1));
-          text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-          animation: cartoon-fire-flicker 0.8s ease-in-out infinite;
-        }
-        
-        [data-card-id="beginner"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.15) rotate(-8deg) translateY(-2px);
-          filter: drop-shadow(0 6px 0px rgba(34, 197, 94, 1));
-          animation: cartoon-grow 2s ease-in-out infinite;
-        }
-        
-        [data-card-id="strength"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.2) rotate(0deg) translateY(-4px);
-          filter: drop-shadow(0 10px 0px rgba(251, 146, 60, 1));
-          animation: cartoon-lightning 1.5s ease-in-out infinite;
-        }
-        
-        [data-card-id="hypertrophy"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.18) rotate(10deg) translateY(-3px);
-          filter: drop-shadow(0 8px 0px rgba(236, 72, 153, 1));
-          animation: cartoon-diamond-shine 2s ease-in-out infinite;
-        }
-        
-        [data-card-id="goals"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.22) rotate(-5deg) translateY(-4px);
-          filter: drop-shadow(0 10px 0px rgba(251, 191, 36, 1));
-          animation: cartoon-target-hit 1.2s ease-in-out infinite;
-        }
-        
-        [data-card-id="nutrition-calc"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.2) rotate(8deg) translateY(-3px);
-          filter: drop-shadow(0 8px 0px rgba(132, 204, 22, 1));
-          animation: cartoon-salad-bounce 1.5s ease-in-out infinite;
-        }
-        
-        [data-card-id="meals"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.15) rotate(-10deg) translateY(-2px);
-          filter: drop-shadow(0 6px 0px rgba(244, 63, 94, 1));
-          animation: cartoon-apple-wiggle 1.3s ease-in-out infinite;
-        }
-        
-        [data-card-id="calculator"]:hover .group-hover\\:rotate-6 {
-          transform: scale(1.25) rotate(5deg) translateY(-4px);
-          filter: drop-shadow(0 10px 0px rgba(99, 102, 241, 1));
-          animation: cartoon-chart-pulse 1.8s ease-in-out infinite;
-        }
-        
-        /* 이모지별 특화 카툰 애니메이션 */
-        @keyframes cartoon-muscle-flex {
-          0%, 100% { transform: scale(1.25) rotate(-12deg) translateY(-4px); }
-          50% { transform: scale(1.3) rotate(-12deg) translateY(-6px); }
-        }
-        
-        @keyframes cartoon-fire-flicker {
-          0%, 100% { transform: scale(1.3) rotate(20deg) translateY(-5px); }
-          25% { transform: scale(1.35) rotate(18deg) translateY(-7px); }
-          75% { transform: scale(1.25) rotate(22deg) translateY(-3px); }
-        }
-        
-        @keyframes cartoon-grow {
-          0%, 100% { transform: scale(1.15) rotate(-8deg) translateY(-2px); }
-          50% { transform: scale(1.2) rotate(-8deg) translateY(-4px); }
-        }
-        
-        @keyframes cartoon-lightning {
-          0%, 100% { 
-            transform: scale(1.2) rotate(0deg) translateY(-4px);
-            filter: drop-shadow(0 10px 0px rgba(251, 146, 60, 1));
-          }
-          50% { 
-            transform: scale(1.25) rotate(3deg) translateY(-6px);
-            filter: drop-shadow(0 12px 0px rgba(251, 146, 60, 1)) drop-shadow(0 0 20px rgba(251, 146, 60, 0.8));
-          }
-        }
-        
-        @keyframes cartoon-diamond-shine {
-          0%, 100% { 
-            transform: scale(1.18) rotate(10deg) translateY(-3px);
-            filter: drop-shadow(0 8px 0px rgba(236, 72, 153, 1));
-          }
-          50% { 
-            transform: scale(1.22) rotate(10deg) translateY(-5px);
-            filter: drop-shadow(0 10px 0px rgba(236, 72, 153, 1)) drop-shadow(0 0 15px rgba(236, 72, 153, 0.6));
-          }
-        }
-        
-        @keyframes cartoon-target-hit {
-          0%, 100% { transform: scale(1.22) rotate(-5deg) translateY(-4px); }
-          25% { transform: scale(1.25) rotate(-3deg) translateY(-6px); }
-          75% { transform: scale(1.2) rotate(-7deg) translateY(-2px); }
-        }
-        
-        @keyframes cartoon-salad-bounce {
-          0%, 100% { transform: scale(1.2) rotate(8deg) translateY(-3px); }
-          50% { transform: scale(1.2) rotate(8deg) translateY(-8px); }
-        }
-        
-        @keyframes cartoon-chart-pulse {
-          0%, 100% { 
-            transform: scale(1.25) rotate(5deg) translateY(-4px);
-            filter: drop-shadow(0 10px 0px rgba(99, 102, 241, 1));
-          }
-          50% { 
-            transform: scale(1.3) rotate(5deg) translateY(-6px);
-            filter: drop-shadow(0 12px 0px rgba(99, 102, 241, 1)) drop-shadow(0 0 25px rgba(99, 102, 241, 0.7));
-          }
-        }
-        
-        /* 드래그 앤 드롭 스타일 */
-        .touch-manipulation {
-          touch-action: none;
-          -webkit-user-drag: none;
-          -khtml-user-drag: none;
-          -moz-user-drag: none;
-          -o-user-drag: none;
-          user-drag: none;
-        }
-        
-        /* 드래그 중인 요소 스타일 */
-        [data-card-id] {
-          -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-          will-change: transform;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-        }
-        
-        /* 모바일 터치 최적화 */
-        @media (max-width: 768px) {
-          .touch-manipulation {
-            touch-action: none !important;
-            -webkit-touch-callout: none !important;
-            -webkit-user-select: none !important;
-            -moz-user-select: none !important;
-            -ms-user-select: none !important;
-            user-select: none !important;
-          }
-          
-          /* 터치 하이라이트 완전 제거 */
-          * {
-            -webkit-tap-highlight-color: transparent !important;
-            -webkit-touch-callout: none !important;
-          }
-          
-          /* 드래그 가능한 요소 스타일 */
-          [data-card-id] {
-            cursor: grab;
-          }
-          
-          [data-card-id]:active {
-            cursor: grabbing;
-          }
-          
-          /* 카툰 효과음 텍스트 모바일 최적화 */
-          .text-6xl { font-size: 3rem; }
-          .text-5xl { font-size: 2.5rem; }
-          .text-4xl { font-size: 2rem; }
-        }
-        
-        /* 터치 피드백 */
-        .active\\:scale-95:active {
-          transform: scale(0.95);
-        }
-        
-        /* 드롭 대상 하이라이트 애니메이션 */
-        @keyframes dropHighlight {
-          0% { outline-color: transparent; }
-          50% { outline-color: #3b82f6; }
-          100% { outline-color: #3b82f6; }
-        }
-        
-        .drop-target {
-          animation: dropHighlight 0.3s ease;
-        }
-        
-        .user-select-none {
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-        }
-      `}</style>
-    </div>
-  );
 };
 
 export default JwonderWorkOut; 
