@@ -193,23 +193,23 @@ const FloatingChatbot: React.FC = () => {
           </div>
 
           {/* 입력 영역 - 카툰 스타일 */}
-          <div className="p-4 border-t-4 border-black bg-purple-200">
-            <div className="flex space-x-3">
+          <div className="p-3 border-t-4 border-black bg-purple-200">
+            <div className="flex space-x-2 items-end">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="뭔가 재미있는 얘기 해봐! 🎨"
-                className="flex-1 p-3 border-3 border-black rounded-xl focus:outline-none focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white font-medium shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                className="flex-1 min-w-0 p-2.5 border-3 border-black rounded-xl focus:outline-none focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] bg-white font-medium shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] text-sm"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim()}
-                className="px-4 py-3 bg-orange-400 text-black rounded-xl border-3 border-black hover:bg-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transform hover:translate-x-[-2px] hover:translate-y-[-2px] font-bold"
+                className="flex-shrink-0 px-3 py-2.5 bg-orange-400 text-black rounded-xl border-3 border-black hover:bg-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transform hover:translate-x-[-1px] hover:translate-y-[-1px] font-bold"
                 aria-label="메시지 전송"
               >
-                <Send className="w-5 h-5" />
+                <Send className="w-4 h-4" />
               </button>
             </div>
           </div>
