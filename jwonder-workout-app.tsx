@@ -3104,17 +3104,9 @@ ${consultationForm.message || '별도 문의사항 없음'}
           </div>
         </div>
       </footer>
-      
-        onExerciseClick={(exerciseId) => {
-          const exerciseCard = cards.find(card => card.id === exerciseId);
-          if (exerciseCard) {
-            setSelectedCard(exerciseCard);
-          }
-        }}
-      />
+
     </div>
   );
 };
 
-export default JwonderWorkOut; 
-
+export default JwonderWorkOut;
