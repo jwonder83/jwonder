@@ -69,35 +69,62 @@ interface OneRMRecord {
   date: string;
 }
 
+// 운동 기록 관련 인터페이스 추가
+interface WorkoutSet {
+  id: number;
+  weight: number;
+  reps: number;
+  completed: boolean;
+}
+
+interface WorkoutExercise {
+  id: number;
+  name: string;
+  sets: WorkoutSet[];
+  targetSets: number;
+  targetReps: string;
+  restTime: number; // 분 단위
+}
+
+interface WorkoutRecord {
+  id: number;
+  date: string;
+  exercises: WorkoutExercise[];
+  totalDuration: number; // 분 단위
+  notes: string;
+  completed: boolean;
+}
+
 interface UserData {
   programs: Program[];
   nutrition: any[];
   oneRMRecords: OneRMRecord[];
+  workoutRecords: WorkoutRecord[];
 }
 
 const JwonderWorkOut = () => {
   const [cards, setCards] = useState<Card[]>([
-    // 3대운동 개별 카드들 - 다양한 사이즈 적용
-    { id: 'squat', title: '스쿼트', icon: '🏋️‍♂️', size: 'large', category: 'squat', color: 'bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600' },
-    { id: 'bench', title: '벤치프레스', icon: '💪', size: 'large', category: 'bench', color: 'bg-gradient-to-br from-red-400 via-red-500 to-red-600' },
-    { id: 'deadlift', title: '데드리프트', icon: '🔥', size: 'wide', category: 'deadlift', color: 'bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600' },
+    // 3대운동 개별 카드들 - 완전히 독립적인 색상
+    { id: 'squat', title: '스쿼트', icon: '🦵', size: 'large', category: 'squat', color: 'bg-gradient-to-br from-emerald-300 via-teal-400 to-green-500' },
+    { id: 'bench', title: '벤치프레스', icon: '🏋️', size: 'large', category: 'bench', color: 'bg-gradient-to-br from-red-400 via-orange-500 to-amber-600' },
+    { id: 'deadlift', title: '데드리프트', icon: '💥', size: 'wide', category: 'deadlift', color: 'bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600' },
     
     // 운동 프로그램 개별 카드들
-    { id: 'beginner', title: '프로그램', icon: '🌱', size: 'small', category: 'beginner', color: 'bg-gradient-to-br from-green-400 via-green-500 to-green-600' },
-    { id: 'strength', title: '근력 향상', icon: '⚡', size: 'medium', category: 'strength', color: 'bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500' },
-    { id: 'hypertrophy', title: '근비대', icon: '💎', size: 'small', category: 'hypertrophy', color: 'bg-gradient-to-br from-pink-400 via-pink-500 to-rose-500' },
+    { id: 'beginner', title: '프로그램', icon: '📚', size: 'small', category: 'beginner', color: 'bg-gradient-to-br from-blue-300 via-sky-400 to-cyan-500' },
+    { id: 'strength', title: '근력 향상', icon: '💪', size: 'medium', category: 'strength', color: 'bg-gradient-to-br from-yellow-300 via-lime-400 to-chartreuse-500' },
+    { id: 'hypertrophy', title: '근비대', icon: '🔥', size: 'small', category: 'hypertrophy', color: 'bg-gradient-to-br from-pink-400 via-rose-500 to-red-600' },
     
     // 식단 & 영양 개별 카드들
-    { id: 'goals', title: '목표 설정', icon: '🎯', size: 'medium', category: 'goals', color: 'bg-gradient-to-br from-orange-400 via-orange-500 to-red-500' },
-    { id: 'nutrition-calc', title: '영양 계산기', icon: '🥗', size: 'wide', category: 'nutrition-calc', color: 'bg-gradient-to-br from-lime-400 via-green-500 to-emerald-500' },
-    { id: 'meals', title: '식단 추천', icon: '🍎', size: 'small', category: 'meals', color: 'bg-gradient-to-br from-indigo-400 via-purple-500 to-violet-500' },
+    { id: 'goals', title: '목표 설정', icon: '🏆', size: 'medium', category: 'goals', color: 'bg-gradient-to-br from-amber-300 via-orange-400 to-red-500' },
+    { id: 'nutrition-calc', title: '영양 계산기', icon: '⚖️', size: 'wide', category: 'nutrition-calc', color: 'bg-gradient-to-br from-lime-300 via-green-400 to-emerald-500' },
+    { id: 'meals', title: '식단 추천', icon: '🍽️', size: 'small', category: 'meals', color: 'bg-gradient-to-br from-fuchsia-300 via-purple-400 to-violet-500' },
     
     // 1RM 계산기
-    { id: 'calculator', title: '1RM 계산기', icon: '📊', size: 'large', category: 'calculator', color: 'bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-500' },
+    { id: 'calculator', title: '1RM 계산기', icon: '🔢', size: 'large', category: 'calculator', color: 'bg-gradient-to-br from-slate-300 via-gray-400 to-zinc-500' },
     
-    // 새로운 카드 섹션들
-    { id: 'workout-log', title: '운동 기록', icon: '📋', size: 'medium', category: 'workout-log', color: 'bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-600' },
-    { id: 'community', title: '커뮤니티', icon: '👥', size: 'small', category: 'community', color: 'bg-gradient-to-br from-violet-400 via-purple-500 to-indigo-600' },
+    // 기타 카드들
+    { id: 'workout-log', title: '운동 기록', icon: '📝', size: 'medium', category: 'workout-log', color: 'bg-gradient-to-br from-teal-300 via-cyan-400 to-sky-500' },
+    { id: 'faq', title: 'FAQ', icon: '❓', size: 'small', category: 'faq', color: 'bg-gradient-to-br from-indigo-300 via-blue-400 to-purple-500' },
   ]);
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -108,7 +135,8 @@ const JwonderWorkOut = () => {
   const [userData, setUserData] = useState<UserData>({
     programs: [],
     nutrition: [],
-    oneRMRecords: []
+    oneRMRecords: [],
+    workoutRecords: []
   });
 
   // 1RM 계산기 상태
@@ -131,6 +159,31 @@ const JwonderWorkOut = () => {
     maintenance: { calories: number; protein: number; carbs: number; fat: number };
     weightGain: { calories: number; protein: number; carbs: number; fat: number };
   } | null>(null);
+
+  // 운동 기록 상태 추가
+  const [currentWorkout, setCurrentWorkout] = useState<WorkoutRecord | null>(null);
+  const [showNewWorkoutForm, setShowNewWorkoutForm] = useState(false);
+  const [newExercise, setNewExercise] = useState({
+    name: '',
+    targetSets: 3,
+    targetReps: '8-12',
+    restTime: 2
+  });
+  const [workoutTimer, setWorkoutTimer] = useState(0);
+  const [isWorkoutActive, setIsWorkoutActive] = useState(false);
+
+  // 상담 신청 관련 상태들
+  const [showConsultationForm, setShowConsultationForm] = useState(false);
+  const [consultationForm, setConsultationForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    age: '',
+    experience: '',
+    goal: '',
+    message: ''
+  });
+  const [isSubmittingConsultation, setIsSubmittingConsultation] = useState(false);
 
   // BMR 계산 함수 (Mifflin-St Jeor 공식)
   const calculateBMR = (gender: string, weight: number, height: number, age: number): number => {
@@ -269,6 +322,21 @@ const JwonderWorkOut = () => {
     setCalcWeight('');
     setCalcReps('');
     setCalcResult(null);
+  };
+
+  // 운동 기록 관련 함수들
+  const startNewWorkout = () => { 
+    const newWorkout = { 
+      id: Date.now(), 
+      date: new Date().toISOString().split('T')[0], 
+      exercises: [], 
+      totalDuration: 0, 
+      notes: '', 
+      completed: false 
+    }; 
+    setCurrentWorkout(newWorkout); 
+    setIsWorkoutActive(true); 
+    setWorkoutTimer(0); 
   };
 
   // 디버깅을 위한 useEffect 추가
@@ -711,6 +779,89 @@ const JwonderWorkOut = () => {
                   </div>
                 </div>
               </div>
+
+              {/* 유튜브 영상 섹션 추가 */}
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">📹</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎬</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 flex items-center cartoon-text">
+                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <span className="text-white text-xl">📺</span>
+                  </div>
+                  스쿼트 완벽 가이드 영상
+                  <div className="ml-3 text-red-600 font-black text-sm">WATCH!</div>
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-red-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">기본 스쿼트 자세</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/Dy28eq2PjcM"
+                        title="스쿼트 기본 자세"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">올바른 스쿼트 자세와 호흡법을 배워보세요!</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-300 to-cyan-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">고급 스쿼트 테크닉</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/gsNoPYwWXeM"
+                        title="고급 스쿼트 테크닉"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">더 깊고 안전한 스쿼트를 위한 고급 기술들!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">⚠️</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🛡️</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">안전 수칙</h3>
+                <div className="grid md:grid-cols-2 gap-6 font-bold text-gray-800">
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🤝</span>
+                    </div>
+                    <span>항상 스포터와 함께 운동</span>
+            </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🔥</span>
+                    </div>
+                    <span>충분한 워밍업 필수</span>
+          </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🛡️</span>
+                    </div>
+                    <span>세이프티 바 설정</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">⚠️</span>
+                    </div>
+                    <span>무리한 중량 금지</span>
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
     );
@@ -836,6 +987,89 @@ const JwonderWorkOut = () => {
                   </div>
                 </div>
               </div>
+
+              {/* 유튜브 영상 섹션 추가 */}
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">📹</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎬</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 flex items-center cartoon-text">
+                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <span className="text-white text-xl">📺</span>
+                  </div>
+                  벤치프레스 완벽 가이드 영상
+                  <div className="ml-3 text-red-600 font-black text-sm">WATCH!</div>
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-red-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">기본 벤치프레스 자세</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/rT7DgCr-3pg"
+                        title="벤치프레스 기본 자세"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">올바른 벤치프레스 자세와 그립 방법을 배워보세요!</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-orange-300 to-red-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">고급 벤치프레스 테크닉</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/esQi683XR44"
+                        title="고급 벤치프레스 테크닉"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">파워리프팅 기법과 최대중량을 위한 고급 테크닉!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">⚠️</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🛡️</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">안전 수칙</h3>
+                <div className="grid md:grid-cols-2 gap-6 font-bold text-gray-800">
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🤝</span>
+                    </div>
+                    <span>항상 스포터와 함께 운동</span>
+            </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🔥</span>
+                    </div>
+                    <span>충분한 워밍업 필수</span>
+          </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🛡️</span>
+                    </div>
+                    <span>세이프티 바 설정</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">⚠️</span>
+                    </div>
+                    <span>무리한 중량 금지</span>
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
     );
@@ -862,11 +1096,11 @@ const JwonderWorkOut = () => {
                 </div>
             <div>
                   <h2 className="text-4xl font-black text-black cartoon-text mb-2">데드리프트 가이드</h2>
-                  <p className="text-purple-800 font-bold text-xl">⚡ 전신 근력의 킹! ⚡</p>
+                  <p className="text-purple-800 font-bold text-xl">🔥 등 근력의 황제! 🔥</p>
                   {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-orange-500/60 rotate-12 animate-pulse">LIFT!</div>
+                  <div className="absolute -top-2 right-4 text-2xl font-black text-red-500/60 rotate-12 animate-pulse">DEADLIFT!</div>
                 </div>
-            </div>
+              </div>
 
               <div className="grid md:grid-cols-2 gap-6 relative z-10">
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
@@ -874,1140 +1108,194 @@ const JwonderWorkOut = () => {
                     <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
                       <Target className="w-5 h-5 text-white" />
                     </div>
-                    기본 자세
+                    올바른 자세
                   </h3>
                   <ul className="space-y-4 text-gray-800">
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">1</span>
                       </div>
-                      <span className="font-semibold">발은 어깨너비, 바벨에 가깝게</span>
-                    </li>
+                      <span className="font-semibold">발을 바벨 밑에 두고 엉덩이폭으로 벌리기</span>
+                  </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">2</span>
                       </div>
-                      <span className="font-semibold">무릎을 굽혀 바벨을 잡기</span>
+                      <span className="font-semibold">허리는 중립을 유지하고 가슴을 펴기</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">3</span>
                       </div>
-                      <span className="font-semibold">가슴을 펴고 어깨를 뒤로</span>
+                      <span className="font-semibold">바벨은 정강이에 가깝게 유지</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">4</span>
                       </div>
-                      <span className="font-semibold">허리는 중립 자세 유지</span>
+                      <span className="font-semibold">엉덩이와 무릎을 동시에 펴서 들어올리기</span>
                     </li>
-                  </ul>
+              </ul>
                 </div>
 
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    주요 근육
-                  </h3>
-                  <div className="space-y-4 text-gray-800">
-                    <div className="flex justify-between items-center p-3 bg-purple-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold">햄스트링</span>
-                      <div className="w-20 bg-gray-300 rounded-full h-3 border border-black">
-                        <div className="bg-purple-500 h-3 rounded-full w-full border-r border-black"></div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold">둔근</span>
-                      <div className="w-20 bg-gray-300 rounded-full h-3 border border-black">
-                        <div className="bg-purple-500 h-3 rounded-full w-5/6 border-r border-black"></div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold">척추기립근</span>
-                      <div className="w-20 bg-gray-300 rounded-full h-3 border border-black">
-                        <div className="bg-purple-500 h-3 rounded-full w-4/5 border-r border-black"></div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold">승모근</span>
-                      <div className="w-20 bg-gray-300 rounded-full h-3 border border-black">
-                        <div className="bg-purple-500 h-3 rounded-full w-3/4 border-r border-black"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">🏋️</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">💪</div>
-                
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">데드리프트 변형</h3>
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="bg-gradient-to-br from-purple-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">컨벤셔널</h4>
-                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <p className="font-bold text-gray-800">가장 기본적인 형태<br/>전신 근력 발달</p>
-                      <div className="mt-2 text-2xl">🔥</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-blue-300 to-purple-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">스모</h4>
-                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <p className="font-bold text-gray-800">넓은 스탠스<br/>대퇴사두근 강화</p>
-                      <div className="mt-2 text-2xl">💥</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-green-300 to-blue-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">루마니안</h4>
-                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <p className="font-bold text-gray-800">햄스트링 집중<br/>유연성 향상</p>
-                      <div className="mt-2 text-2xl">⚡</div>
-                    </div>
-                  </div>
-                </div>
-          </div>
-        </div>
-      </div>
-    );
-
-      case 'nutrition-calc':
-    return (
-      <div className="p-6 space-y-6 relative">
-        {/* 카툰풍 배경 장식 요소들 */}
-        <div className="absolute top-16 right-20 text-3xl text-lime-400/40 animate-bounce">🥗</div>
-        <div className="absolute bottom-24 left-18 text-2xl text-green-400/40 animate-pulse">📊</div>
-        <div className="absolute top-1/3 left-8 text-xl text-emerald-400/40 animate-ping">⚡</div>
-        
-        <div className="bg-gradient-to-br from-lime-200/90 to-green-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-          {/* 카툰풍 말풍선 꼬리 */}
-          <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-lime-200 to-green-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-          
-          {/* 카툰풍 배경 패턴 */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-          
-          <div className="flex items-center mb-6 relative z-10">
-            <div className="w-20 h-20 bg-gradient-to-br from-lime-500 to-green-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-              <Calculator className="w-10 h-10 text-white drop-shadow-lg" />
-            </div>
-            <div>
-              <h2 className="text-4xl font-black text-black cartoon-text mb-2">영양 계산기</h2>
-              <p className="text-green-800 font-bold text-xl">🥗 개인 맞춤 칼로리! 🥗</p>
-              {/* 카툰풍 효과음 */}
-              <div className="absolute -top-2 right-4 text-2xl font-black text-orange-500/60 rotate-12 animate-pulse">CALC!</div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 relative z-10">
-            <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-              <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                <div className="w-8 h-8 bg-lime-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                  <Target className="w-5 h-5 text-white" />
-                </div>
-                기초대사율 계산
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-lg font-black text-black mb-2 cartoon-text">성별 👫</label>
-                  <select 
-                    className="w-full bg-lime-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold focus:outline-none focus:border-green-500 focus:bg-white transition-all shadow-cartoon" 
-                    aria-label="성별 선택"
-                    value={nutritionForm.gender}
-                    onChange={(e) => handleNutritionFormChange('gender', e.target.value)}
-                  >
-                    <option value="male">남성</option>
-                    <option value="female">여성</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-lg font-black text-black mb-2 cartoon-text">나이 🎂</label>
-                  <input
-                    type="number"
-                    className="w-full bg-lime-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold placeholder-gray-600 focus:outline-none focus:border-green-500 focus:bg-white transition-all shadow-cartoon"
-                    placeholder="예: 25"
-                    value={nutritionForm.age}
-                    onChange={(e) => handleNutritionFormChange('age', e.target.value)}
-                    min="1"
-                    max="120"
-                  />
-                </div>
-                <div>
-                  <label className="block text-lg font-black text-black mb-2 cartoon-text">신장 (cm) 📏</label>
-                  <input
-                    type="number"
-                    className="w-full bg-lime-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold placeholder-gray-600 focus:outline-none focus:border-green-500 focus:bg-white transition-all shadow-cartoon"
-                    placeholder="예: 175"
-                    value={nutritionForm.height}
-                    onChange={(e) => handleNutritionFormChange('height', e.target.value)}
-                    min="100"
-                    max="250"
-                    step="0.1"
-                  />
-                </div>
-                <div>
-                  <label className="block text-lg font-black text-black mb-2 cartoon-text">체중 (kg) ⚖️</label>
-                  <input 
-                    type="number"
-                    className="w-full bg-lime-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold placeholder-gray-600 focus:outline-none focus:border-green-500 focus:bg-white transition-all shadow-cartoon"
-                    placeholder="예: 70"
-                    value={nutritionForm.weight}
-                    onChange={(e) => handleNutritionFormChange('weight', e.target.value)}
-                    min="30"
-                    max="300"
-                    step="0.1"
-                  />
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-              <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                  <Apple className="w-5 h-5 text-white" />
-                </div>
-                활동 수준
-              </h3>
-              <div className="space-y-3">
-                <div 
-                  className={`rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all cursor-pointer ${
-                    nutritionForm.activityLevel === '1.2' 
-                      ? 'bg-gradient-to-r from-red-400 to-orange-400 ring-4 ring-yellow-400' 
-                      : 'bg-gradient-to-r from-red-300 to-orange-300'
-                  }`}
-                  onClick={() => handleNutritionFormChange('activityLevel', '1.2')}
-                >
-                  <h4 className="font-black text-black text-lg mb-1">좌식 생활 (1.2) 🪑</h4>
-                  <p className="text-sm font-bold text-gray-800">운동 거의 안함</p>
-                </div>
-                <div 
-                  className={`rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all cursor-pointer ${
-                    nutritionForm.activityLevel === '1.375' 
-                      ? 'bg-gradient-to-r from-orange-400 to-yellow-400 ring-4 ring-yellow-400' 
-                      : 'bg-gradient-to-r from-orange-300 to-yellow-300'
-                  }`}
-                  onClick={() => handleNutritionFormChange('activityLevel', '1.375')}
-                >
-                  <h4 className="font-black text-black text-lg mb-1">가벼운 활동 (1.375) 🚶</h4>
-                  <p className="text-sm font-bold text-gray-800">주 1-3회 가벼운 운동</p>
-                </div>
-                <div 
-                  className={`rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all cursor-pointer ${
-                    nutritionForm.activityLevel === '1.55' 
-                      ? 'bg-gradient-to-r from-yellow-400 to-green-400 ring-4 ring-yellow-400' 
-                      : 'bg-gradient-to-r from-yellow-300 to-green-300'
-                  }`}
-                  onClick={() => handleNutritionFormChange('activityLevel', '1.55')}
-                >
-                  <h4 className="font-black text-black text-lg mb-1">보통 활동 (1.55) 🏃</h4>
-                  <p className="text-sm font-bold text-gray-800">주 3-5회 중간 강도</p>
-                </div>
-                <div 
-                  className={`rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all cursor-pointer ${
-                    nutritionForm.activityLevel === '1.725' 
-                      ? 'bg-gradient-to-r from-green-400 to-teal-400 ring-4 ring-yellow-400' 
-                      : 'bg-gradient-to-r from-green-300 to-teal-300'
-                  }`}
-                  onClick={() => handleNutritionFormChange('activityLevel', '1.725')}
-                >
-                  <h4 className="font-black text-black text-lg mb-1">활발한 활동 (1.725) 💪</h4>
-                  <p className="text-sm font-bold text-gray-800">주 6-7회 고강도</p>
-                </div>
-                <div 
-                  className={`rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all cursor-pointer ${
-                    nutritionForm.activityLevel === '1.9' 
-                      ? 'bg-gradient-to-r from-blue-400 to-purple-400 ring-4 ring-yellow-400' 
-                      : 'bg-gradient-to-r from-blue-300 to-purple-300'
-                  }`}
-                  onClick={() => handleNutritionFormChange('activityLevel', '1.9')}
-                >
-                  <h4 className="font-black text-black text-lg mb-1">매우 활발 (1.9) 🔥</h4>
-                  <p className="text-sm font-bold text-gray-800">하루 2회 또는 육체노동</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* BMR/TDEE 결과 표시 */}
-          {nutritionResults && (
-            <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon">
-              <h3 className="text-2xl font-black text-black mb-4 cartoon-text">기초 정보</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="bg-gradient-to-r from-blue-300 to-cyan-300 rounded-2xl p-4 border-3 border-black">
-                  <h4 className="font-black text-black text-lg mb-2">기초대사율 (BMR)</h4>
-                  <p className="text-2xl font-black text-black">{nutritionResults.bmr} kcal</p>
-                  <p className="text-sm font-bold text-gray-800">가만히 있을 때 소모되는 칼로리</p>
-                </div>
-                <div className="bg-gradient-to-r from-purple-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
-                  <h4 className="font-black text-black text-lg mb-2">총 일일 소모량 (TDEE)</h4>
-                  <p className="text-2xl font-black text-black">{nutritionResults.tdee} kcal</p>
-                  <p className="text-sm font-bold text-gray-800">활동 포함 총 소모 칼로리</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-            {/* 카툰풍 장식 */}
-            <div className="absolute top-2 right-2 text-2xl animate-bounce">🎯</div>
-            <div className="absolute bottom-2 left-2 text-xl animate-pulse">📈</div>
-            
-            <h3 className="text-2xl font-black text-black mb-6 cartoon-text">목표별 칼로리 & 매크로</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-gradient-to-br from-red-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                <h4 className="font-black text-black text-xl mb-3 cartoon-text">체중 감량 📉</h4>
-                <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                  <div className="space-y-3 text-lg font-bold">
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">칼로리:</span>
-                      <span className="text-red-600">{nutritionResults ? nutritionResults.weightLoss.calories : '--'} kcal</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">단백질:</span>
-                      <span className="text-red-600">{nutritionResults ? nutritionResults.weightLoss.protein : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">탄수화물:</span>
-                      <span className="text-red-600">{nutritionResults ? nutritionResults.weightLoss.carbs : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">지방:</span>
-                      <span className="text-red-600">{nutritionResults ? nutritionResults.weightLoss.fat : '--'} g</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-br from-green-300 to-emerald-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                <h4 className="font-black text-black text-xl mb-3 cartoon-text">체중 유지 ⚖️</h4>
-                <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                  <div className="space-y-3 text-lg font-bold">
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">칼로리:</span>
-                      <span className="text-green-600">{nutritionResults ? nutritionResults.maintenance.calories : '--'} kcal</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">단백질:</span>
-                      <span className="text-green-600">{nutritionResults ? nutritionResults.maintenance.protein : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">탄수화물:</span>
-                      <span className="text-green-600">{nutritionResults ? nutritionResults.maintenance.carbs : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">지방:</span>
-                      <span className="text-green-600">{nutritionResults ? nutritionResults.maintenance.fat : '--'} g</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-gradient-to-br from-blue-300 to-purple-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                <h4 className="font-black text-black text-xl mb-3 cartoon-text">근육 증가 📈</h4>
-                <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                  <div className="space-y-3 text-lg font-bold">
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">칼로리:</span>
-                      <span className="text-purple-600">{nutritionResults ? nutritionResults.weightGain.calories : '--'} kcal</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">단백질:</span>
-                      <span className="text-purple-600">{nutritionResults ? nutritionResults.weightGain.protein : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">탄수화물:</span>
-                      <span className="text-purple-600">{nutritionResults ? nutritionResults.weightGain.carbs : '--'} g</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-800">지방:</span>
-                      <span className="text-purple-600">{nutritionResults ? nutritionResults.weightGain.fat : '--'} g</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 flex justify-center gap-4">
-              <button 
-                onClick={calculateNutrition}
-                className="bg-gradient-to-r from-lime-500 to-green-500 hover:from-lime-600 hover:to-green-600 text-white font-black py-4 px-8 rounded-2xl transition-all duration-300 hover:scale-105 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover cartoon-text text-xl"
-              >
-                계산하기! 🚀
-              </button>
-              <button 
-                onClick={resetNutritionCalculator}
-                className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-black py-4 px-6 rounded-2xl transition-all duration-300 hover:scale-105 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover"
-                title="초기화"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-      case 'meals':
-        return (
-          <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-14 left-16 text-3xl text-rose-400/40 animate-bounce">🍎</div>
-            <div className="absolute bottom-20 right-18 text-2xl text-pink-400/40 animate-pulse">🥗</div>
-            <div className="absolute top-1/3 right-10 text-xl text-red-400/40 animate-ping">✨</div>
-            
-            <div className="bg-gradient-to-br from-rose-200/90 to-pink-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-rose-200 to-pink-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-              
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-rose-500 to-pink-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <Apple className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">식단 추천</h2>
-                  <p className="text-rose-800 font-bold text-xl">🍽️ 건강한 식단! 🍽️</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-green-500/60 rotate-12 animate-pulse">MEAL!</div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-6 mb-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    체중 감량 식단
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">아침 🌅</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 오트밀 + 베리류</li>
-                        <li>• 그릭요거트</li>
-                        <li>• 아몬드 (10개)</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">점심 ☀️</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 닭가슴살 샐러드</li>
-                        <li>• 현미밥 (1/2공기)</li>
-                        <li>• 브로콜리, 당근</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-purple-300 to-blue-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">저녁 🌙</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 생선구이</li>
-                        <li>• 채소 스프</li>
-                        <li>• 고구마 (소)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    근육 증가 식단
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">아침 🌅</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 계란 3개 + 토스트</li>
-                        <li>• 바나나</li>
-                        <li>• 우유 (200ml)</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-emerald-300 to-teal-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">점심 ☀️</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 소고기 스테이크</li>
-                        <li>• 현미밥 (1공기)</li>
-                        <li>• 아보카도 샐러드</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">저녁 🌙</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 연어구이</li>
-                        <li>• 퀴노아</li>
-                        <li>• 견과류 믹스</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <div className="w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
                       <Star className="w-5 h-5 text-white" />
                     </div>
-                    균형 잡힌 식단
+                    주요 효과
                   </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-yellow-300 to-orange-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">아침 🌅</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 통곡물 시리얼</li>
-                        <li>• 저지방 우유</li>
-                        <li>• 과일 (사과/오렌지)</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">점심 ☀️</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 현미 비빔밥</li>
-                        <li>• 된장국</li>
-                        <li>• 김치, 나물</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">저녁 🌙</h4>
-                      <ul className="text-sm font-bold text-gray-800 space-y-1">
-                        <li>• 두부 스테이크</li>
-                        <li>• 잡곡밥</li>
-                        <li>• 계절 채소</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <BookOpen className="w-5 h-5 text-white" />
-                    </div>
-                    영양소별 식품 가이드
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-red-300 to-orange-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">단백질 🥩</h4>
-                      <p className="text-sm font-bold text-gray-800">닭가슴살, 계란, 생선, 두부, 콩류, 그릭요거트</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-green-300 to-blue-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">탄수화물 🍚</h4>
-                      <p className="text-sm font-bold text-gray-800">현미, 귀리, 고구마, 퀴노아, 과일, 채소</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-yellow-300 to-green-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">지방 🥑</h4>
-                      <p className="text-sm font-bold text-gray-800">아보카도, 견과류, 올리브오일, 연어, 아마씨</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Users className="w-5 h-5 text-white" />
-                    </div>
-                    식단 관리 팁
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-start">
-                      <div className="w-8 h-8 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">⏰</span>
+                  <ul className="space-y-4 text-gray-800">
+                    <li className="flex items-start">
+                      <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">💪</span>
                       </div>
-                      <div>
-                        <h4 className="font-black text-black text-lg cartoon-text">식사 타이밍</h4>
-                        <p className="text-sm font-bold text-gray-800">운동 전 2-3시간, 운동 후 30분 내 단백질 섭취</p>
+                      <span className="font-semibold">광배근, 승모근, 기립근 강화</span>
+                  </li>
+                    <li className="flex items-start">
+                      <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">🔥</span>
                       </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">💧</span>
+                      <span className="font-semibold">햄스트링, 둔근 개발</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">⚡</span>
                       </div>
-                      <div>
-                        <h4 className="font-black text-black text-lg cartoon-text">수분 섭취</h4>
-                        <p className="text-sm font-bold text-gray-800">하루 2-3L, 운동 시 추가 500-1000ml</p>
+                      <span className="font-semibold">후면 사슬 전체 강화</span>
+                    </li>
+                    <li className="flex items-start">
+                      <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
+                        <span className="text-white font-bold text-xs">✨</span>
                       </div>
-                    </div>
-                    <div className="flex items-start">
-                      <div className="w-8 h-8 bg-green-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">📝</span>
-                      </div>
-                      <div>
-                        <h4 className="font-black text-black text-lg cartoon-text">식단 기록</h4>
-                        <p className="text-sm font-bold text-gray-800">앱 활용하여 칼로리와 영양소 추적</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">⚠️</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">💡</div>
-                
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">주의사항 및 권장사항</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-black text-green-700 mb-4 text-xl cartoon-text">✅ 권장 식품</h4>
-                    <div className="grid grid-cols-2 gap-3 text-sm font-bold">
-                      <div className="bg-green-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">신선한 채소 🥬</div>
-                      <div className="bg-green-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">저지방 단백질 🐟</div>
-                      <div className="bg-green-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">통곡물 🌾</div>
-                      <div className="bg-green-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">건강한 지방 🥑</div>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-black text-red-700 mb-4 text-xl cartoon-text">❌ 제한 식품</h4>
-                    <div className="grid grid-cols-2 gap-3 text-sm font-bold">
-                      <div className="bg-red-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">가공식품 🏭</div>
-                      <div className="bg-red-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">단순당 🍭</div>
-                      <div className="bg-red-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">트랜스지방 🚫</div>
-                      <div className="bg-red-200 rounded-2xl p-3 border-2 border-black text-center hover:scale-105 transition-all">과도한 나트륨 🧂</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      <span className="font-semibold">그립력 및 코어 안정성 향상</span>
+                    </li>
+              </ul>
             </div>
           </div>
-        );
-
-      case 'calculator':
-        return (
-          <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-20 right-16 text-3xl text-indigo-400/40 animate-bounce">🔢</div>
-            <div className="absolute bottom-32 left-24 text-2xl text-pink-400/40 animate-pulse">📊</div>
-            <div className="absolute top-1/3 right-8 text-xl text-cyan-400/40 animate-ping">💪</div>
-            
-            <div className="bg-gradient-to-br from-indigo-200/90 to-pink-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-indigo-200 to-pink-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-              
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-pink-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <Calculator className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">1RM 계산기</h2>
-                  <p className="text-indigo-800 font-bold text-xl">🎯 최대 중량을 찾아라! 🎯</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-green-500/60 rotate-12 animate-pulse">CALC!</div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 cartoon-text">계산 방법</h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-indigo-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">Brzycki 공식 🧮</h4>
-                      <p className="font-semibold text-gray-800">1RM = 중량 ÷ (1.0278 - 0.0278 × 반복수)</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-purple-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">Epley 공식 📐</h4>
-                      <p className="font-semibold text-gray-800">1RM = 중량 × (1 + 반복수 ÷ 30)</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 cartoon-text">훈련 강도 가이드</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-red-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">근력 (1-5회) 💪</span>
-                      <span className="bg-red-500 text-white px-3 py-1 rounded-full font-black border border-black">85-100%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-orange-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">파워 (1-3회) ⚡</span>
-                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full font-black border border-black">80-90%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-yellow-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">근비대 (6-12회) 🔥</span>
-                      <span className="bg-yellow-500 text-white px-3 py-1 rounded-full font-black border border-black">65-85%</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-green-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">근지구력 (12+회) 🏃</span>
-                      <span className="bg-green-500 text-white px-3 py-1 rounded-full font-black border border-black">50-65%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
                 {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-spin-slow">⚙️</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-bounce">🎲</div>
+                <div className="absolute top-2 right-2 text-2xl animate-spin-slow">🏆</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-bounce">📚</div>
                 
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">간단 계산기</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-lg font-black text-black mb-2 cartoon-text">중량 (kg) 🏋️</label>
-                    <input
-                      type="number"
-                      className="w-full bg-yellow-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-cartoon"
-                      placeholder="예: 100"
-                      value={calcWeight}
-                      onChange={(e) => setCalcWeight(e.target.value)}
-                    />
+                <h3 className="text-2xl font-black text-black mb-6 flex items-center cartoon-text">
+                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <BookOpen className="w-5 h-5 text-white" />
                   </div>
-                  <div>
-                    <label className="block text-lg font-black text-black mb-2 cartoon-text">반복수 🔢</label>
-                    <input
-                      type="number"
-                      className="w-full bg-yellow-100 border-3 border-black rounded-2xl px-4 py-3 text-black font-bold placeholder-gray-600 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all shadow-cartoon"
-                      placeholder="예: 5"
-                      value={calcReps}
-                      onChange={(e) => setCalcReps(e.target.value)}
-                      min="1"
-                      max="15"
-                    />
-                  </div>
-                  <div className="flex items-end gap-2">
-                    <button 
-                      onClick={calculateOneRM}
-                      className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-black py-3 px-4 rounded-2xl transition-all duration-300 hover:scale-105 border-3 border-black shadow-cartoon hover:shadow-cartoon-hover cartoon-text"
-                    >
-                      계산하기! 💥
-                    </button>
-                    <button 
-                      onClick={resetCalculator}
-                      className="bg-red-500 hover:bg-red-600 text-white font-black py-3 px-3 rounded-2xl transition-all duration-300 hover:scale-105 border-3 border-black shadow-cartoon"
-                      title="초기화"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-6 p-6 bg-gradient-to-r from-indigo-300 to-purple-300 rounded-3xl border-4 border-black shadow-cartoon">
-                  <p className="text-center mb-4">
-                    <span className="text-black font-bold text-xl cartoon-text">예상 1RM: </span>
-                    <span className="text-4xl font-black text-black cartoon-text">
-                      {calcResult ? `${calcResult} kg` : '-- kg'}
-                    </span>
-                    <span className="text-2xl">🎯</span>
-                  </p>
-                  {calcResult && (
-                    <div className="mt-4 pt-4 border-t-4 border-black">
-                      <p className="text-lg font-black text-black text-center mb-4 cartoon-text">훈련 강도별 중량 💪</p>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div className="flex justify-between p-2 bg-red-200 rounded-xl border-2 border-black">
-                          <span className="font-bold text-red-800">근력 (85%):</span>
-                          <span className="font-black text-black">{Math.round(calcResult * 0.85)} kg</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-orange-200 rounded-xl border-2 border-black">
-                          <span className="font-bold text-orange-800">파워 (80%):</span>
-                          <span className="font-black text-black">{Math.round(calcResult * 0.8)} kg</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-yellow-200 rounded-xl border-2 border-black">
-                          <span className="font-bold text-yellow-800">근비대 (75%):</span>
-                          <span className="font-black text-black">{Math.round(calcResult * 0.75)} kg</span>
-                        </div>
-                        <div className="flex justify-between p-2 bg-green-200 rounded-xl border-2 border-black">
-                          <span className="font-bold text-green-800">근지구력 (60%):</span>
-                          <span className="font-black text-black">{Math.round(calcResult * 0.6)} kg</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'beginner':
-        return (
-          <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-16 left-16 text-3xl text-green-400/40 animate-bounce">🌱</div>
-            <div className="absolute bottom-20 right-20 text-2xl text-emerald-400/40 animate-pulse">🎯</div>
-            <div className="absolute top-1/2 right-12 text-xl text-lime-400/40 animate-ping">✨</div>
-            
-            <div className="bg-gradient-to-br from-green-200/90 to-emerald-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-green-200 to-emerald-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-              
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <Target className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">프로그램</h2>
-                  <p className="text-green-800 font-bold text-xl">🌟 운동의 시작! 🌟</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-blue-500/60 rotate-12 animate-pulse">START!</div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Calendar className="w-5 h-5 text-white" />
-                    </div>
-                    8주 프로그램
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">1-2주차: 기초 적응 🌱</h4>
-                      <ul className="font-semibold text-gray-800 space-y-1">
-                        <li>• 자체중량 운동 위주</li>
-                        <li>• 주 3회, 전신 운동</li>
-                        <li>• 올바른 자세 익히기</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-blue-300 to-green-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">3-4주차: 중량 도입 🌿</h4>
-                      <ul className="font-semibold text-gray-800 space-y-1">
-                        <li>• 가벼운 덤벨/바벨 사용</li>
-                        <li>• 복합운동 중심</li>
-                        <li>• 점진적 부하 증가</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gradient-to-r from-purple-300 to-blue-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">5-8주차: 강화 🌳</h4>
-                      <ul className="font-semibold text-gray-800 space-y-1">
-                        <li>• 중량 점진적 증가</li>
-                        <li>• 운동 다양성 확대</li>
-                        <li>• 개인별 맞춤 조정</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Dumbbell className="w-5 h-5 text-white" />
-                    </div>
-                    주요 운동
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center p-3 bg-green-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">스쿼트 🦵</span>
-                      <span className="bg-green-500 text-white px-3 py-1 rounded-full font-black text-sm border border-black">하체 기초</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-blue-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">푸시업 💪</span>
-                      <span className="bg-blue-500 text-white px-3 py-1 rounded-full font-black text-sm border border-black">상체 기초</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-purple-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">플랭크 🔥</span>
-                      <span className="bg-purple-500 text-white px-3 py-1 rounded-full font-black text-sm border border-black">코어 기초</span>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-orange-100 rounded-2xl border-2 border-black">
-                      <span className="font-bold text-gray-800">데드버그 ⚡</span>
-                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full font-black text-sm border border-black">안정성</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">⚠️</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">💡</div>
-                
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">초보자 주의사항</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-black text-green-700 mb-4 text-xl cartoon-text">✅ 해야 할 것</h4>
-                    <ul className="space-y-3 font-semibold text-gray-800">
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-green-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✓</span>
-                        </div>
-                        충분한 휴식과 수면
-                      </li>
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-green-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✓</span>
-                        </div>
-                        점진적인 강도 증가
-                      </li>
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-green-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✓</span>
-                        </div>
-                        올바른 자세 우선
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-black text-red-700 mb-4 text-xl cartoon-text">❌ 피해야 할 것</h4>
-                    <ul className="space-y-3 font-semibold text-gray-800">
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-red-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✗</span>
-                        </div>
-                        과도한 중량 사용
-                      </li>
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-red-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✗</span>
-                        </div>
-                        매일 같은 부위 운동
-                      </li>
-                      <li className="flex items-start">
-                        <div className="w-6 h-6 bg-red-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
-                          <span className="text-white font-bold text-xs">✗</span>
-                        </div>
-                        워밍업 생략
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'strength':
-        return (
-          <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-14 right-18 text-3xl text-orange-400/40 animate-bounce">💪</div>
-            <div className="absolute bottom-28 left-22 text-2xl text-amber-400/40 animate-pulse">🏆</div>
-            <div className="absolute top-1/3 left-8 text-xl text-yellow-400/40 animate-ping">⚡</div>
-            
-            <div className="bg-gradient-to-br from-orange-200/90 to-amber-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-orange-200 to-amber-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-              
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-red-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-amber-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <TrendingUp className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">근력 향상</h2>
-                  <p className="text-orange-800 font-bold text-xl">🔥 최대 근력의 왕! 🔥</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-red-500/60 rotate-12 animate-pulse">POWER!</div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    훈련 원칙
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">고중량 저반복 🏋️</h4>
-                      <p className="font-semibold text-gray-800">1-5회 반복으로 85-100% 1RM 사용</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">충분한 휴식 ⏰</h4>
-                      <p className="font-semibold text-gray-800">세트 간 3-5분, 운동 간 48-72시간</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-yellow-300 to-orange-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">점진적 과부하 📈</h4>
-                      <p className="font-semibold text-gray-800">매주 2.5-5kg씩 중량 증가</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Dumbbell className="w-5 h-5 text-white" />
-                    </div>
-                    주간 스케줄
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-blue-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">월요일 - 상체 💪</h4>
-                      <p className="font-semibold text-gray-800">벤치프레스, 로우, 오버헤드프레스</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-green-300 to-blue-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">수요일 - 하체 🦵</h4>
-                      <p className="font-semibold text-gray-800">스쿼트, 데드리프트, 런지</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-purple-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">금요일 - 전신 🔥</h4>
-                      <p className="font-semibold text-gray-800">복합운동 중심 고강도</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">📊</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎯</div>
-                
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">12주 프로그레션</h3>
-                <div className="grid md:grid-cols-4 gap-4">
-                  <div className="bg-gradient-to-br from-orange-300 to-red-400 rounded-3xl p-4 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-lg mb-2 cartoon-text">1-3주</h4>
-                    <div className="bg-white rounded-2xl p-3 border-2 border-black">
-                      <p className="font-bold text-gray-800">기초 적응<br/>5×5 프로그램</p>
-                      <div className="mt-2 text-2xl">🌱</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-red-300 to-pink-400 rounded-3xl p-4 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-lg mb-2 cartoon-text">4-6주</h4>
-                    <div className="bg-white rounded-2xl p-3 border-2 border-black">
-                      <p className="font-bold text-gray-800">강도 증가<br/>3×5 프로그램</p>
-                      <div className="mt-2 text-2xl">🔥</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-pink-300 to-purple-400 rounded-3xl p-4 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-lg mb-2 cartoon-text">7-9주</h4>
-                    <div className="bg-white rounded-2xl p-3 border-2 border-black">
-                      <p className="font-bold text-gray-800">최대 근력<br/>1×3 프로그램</p>
-                      <div className="mt-2 text-2xl">💪</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-br from-purple-300 to-indigo-400 rounded-3xl p-4 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-lg mb-2 cartoon-text">10-12주</h4>
-                    <div className="bg-white rounded-2xl p-3 border-2 border-black">
-                      <p className="font-bold text-gray-800">피킹<br/>1RM 테스트</p>
-                      <div className="mt-2 text-2xl">🏆</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'hypertrophy':
-        return (
-          <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-18 right-14 text-3xl text-cyan-400/40 animate-bounce">💎</div>
-            <div className="absolute bottom-22 left-18 text-2xl text-teal-400/40 animate-pulse">🔥</div>
-            <div className="absolute top-1/4 right-6 text-xl text-blue-400/40 animate-ping">⭐</div>
-            
-            <div className="bg-gradient-to-br from-cyan-200/90 to-teal-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-cyan-200 to-teal-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
-              
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
-              <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <Users className="w-10 h-10 text-white drop-shadow-lg" />
-                </div>
-                <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">근비대</h2>
-                  <p className="text-cyan-800 font-bold text-xl">💪 근육량 증가의 마스터! 💪</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-pink-500/60 rotate-12 animate-pulse">GROW!</div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Target className="w-5 h-5 text-white" />
-                    </div>
-                    핵심 원리
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-cyan-300 to-blue-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">중량 × 볼륨 📊</h4>
-                      <p className="font-semibold text-gray-800">6-12회 반복, 65-85% 1RM</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-blue-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">근육 긴장 시간 ⏱️</h4>
-                      <p className="font-semibold text-gray-800">40-70초 TUT (Time Under Tension)</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">점진적 과부하 📈</h4>
-                      <p className="font-semibold text-gray-800">중량, 반복수, 세트수 증가</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    주간 분할
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">월/목 - 상체 푸시 💪</h4>
-                      <p className="font-semibold text-gray-800">가슴, 어깨, 삼두</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-blue-300 to-cyan-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">화/금 - 상체 풀 🔙</h4>
-                      <p className="font-semibold text-gray-800">등, 이두, 후면삼각근</p>
-                    </div>
-                    <div className="bg-gradient-to-r from-green-300 to-teal-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg">수/토 - 하체 🦵</h4>
-                      <p className="font-semibold text-gray-800">대퇴사두근, 햄스트링, 둔근</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">💡</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎯</div>
-                
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">근비대 최적화 팁</h3>
+                  데드리프트 변형
+                  <div className="ml-3 text-red-600 font-black text-sm">VARIETY!</div>
+                </h3>
                 <div className="grid md:grid-cols-3 gap-6">
-                  <div className="bg-gradient-to-br from-cyan-300 to-blue-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">영양 🍗</h4>
+                  <div className="bg-gradient-to-br from-red-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">컨벤셔널</h4>
                     <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <ul className="font-bold text-gray-800 space-y-2">
-                        <li>• 칼로리 잉여 (+300-500kcal)</li>
-                        <li>• 단백질 2g/kg 체중</li>
-                        <li>• 충분한 탄수화물</li>
-                      </ul>
+                      <p className="font-bold text-gray-800">일반적인 데드리프트<br/>엉덩이 폭 스탠스</p>
+                      <div className="mt-2 text-2xl">🦵</div>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-blue-300 to-purple-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">휴식 😴</h4>
+                  <div className="bg-gradient-to-br from-purple-300 to-violet-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">수모</h4>
                     <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <ul className="font-bold text-gray-800 space-y-2">
-                        <li>• 7-9시간 수면</li>
-                        <li>• 근육군별 48-72시간</li>
-                        <li>• 스트레스 관리</li>
-                      </ul>
+                      <p className="font-bold text-gray-800">넓은 스탠스<br/>대퇴사두근 더 개입</p>
+                      <div className="mt-2 text-2xl">🦵</div>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-teal-300 to-green-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">훈련 🏋️</h4>
+                  <div className="bg-gradient-to-br from-violet-300 to-indigo-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">루마니안</h4>
                     <div className="bg-white rounded-2xl p-4 border-2 border-black">
-                      <ul className="font-bold text-gray-800 space-y-2">
-                        <li>• 다양한 각도</li>
-                        <li>• 풀 레인지 모션</li>
-                        <li>• 마인드-머슬 커넥션</li>
-                      </ul>
+                      <p className="font-bold text-gray-800">햄스트링 집중<br/>탑 포지션 시작</p>
+                      <div className="mt-2 text-2xl">🦵</div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* 유튜브 영상 섹션 추가 */}
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">📹</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎬</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 flex items-center cartoon-text">
+                  <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <span className="text-white text-xl">📺</span>
+                  </div>
+                  데드리프트 완벽 가이드 영상
+                  <div className="ml-3 text-red-600 font-black text-sm">WATCH!</div>
+                </h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-purple-300 to-violet-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">기본 데드리프트 자세</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/r4MzxtBKyNE"
+                        title="데드리프트 기본 자세"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">올바른 데드리프트 셋업과 실행 방법을 배워보세요!</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-violet-300 to-purple-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-4 cartoon-text">고급 데드리프트 테크닉</h4>
+                    <div className="bg-black rounded-2xl overflow-hidden border-2 border-black">
+                      <iframe
+                        width="100%"
+                        height="200"
+                        src="https://www.youtube.com/embed/VL5Ab0T07e4"
+                        title="고급 데드리프트 테크닉"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="rounded-xl"
+                      ></iframe>
+                    </div>
+                    <p className="text-sm font-bold text-gray-800 mt-3">더 강한 데드리프트를 위한 고급 기술들!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">⚠️</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🛡️</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">안전 수칙</h3>
+                <div className="grid md:grid-cols-2 gap-6 font-bold text-gray-800">
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🔥</span>
+                    </div>
+                    <span>충분한 워밍업 필수</span>
             </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">🦵</span>
+                    </div>
+                    <span>허리 중립 자세 유지</span>
           </div>
-        );
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">⚖️</span>
+                    </div>
+                    <span>점진적인 중량 증가</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-8 h-8 bg-red-500 rounded-full border-2 border-black mr-4 flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">⚠️</span>
+                    </div>
+                    <span>올바른 호흡법 준수</span>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    );
 
       case 'goals':
         return (
@@ -2138,149 +1426,209 @@ const JwonderWorkOut = () => {
       case 'workout-log':
         return (
           <div className="p-6 space-y-6 relative">
-            {/* 카툰풍 배경 장식 요소들 */}
             <div className="absolute top-16 right-20 text-3xl text-emerald-400/40 animate-bounce">📋</div>
             <div className="absolute bottom-24 left-16 text-2xl text-teal-400/40 animate-pulse">📊</div>
             <div className="absolute top-1/3 left-12 text-xl text-cyan-400/40 animate-ping">✅</div>
             
             <div className="bg-gradient-to-br from-emerald-200/90 to-teal-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
-              {/* 카툰풍 말풍선 꼬리 */}
               <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-emerald-200 to-teal-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
               
-              {/* 카툰풍 배경 패턴 */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
-              
               <div className="flex items-center mb-6 relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon">
                   <BookOpen className="w-10 h-10 text-white drop-shadow-lg" />
                 </div>
                 <div>
                   <h2 className="text-4xl font-black text-black cartoon-text mb-2">운동 기록</h2>
-                  <p className="text-emerald-800 font-bold text-xl">📈 진행상황을 추적하세요! 📈</p>
-                  {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-green-500/60 rotate-12 animate-pulse">TRACK!</div>
+                  <p className="text-emerald-800 font-bold text-xl">📈 실시간 운동 추적! 📈</p>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Calendar className="w-5 h-5 text-white" />
+              <div className="bg-white rounded-3xl p-8 border-4 border-black shadow-cartoon relative z-10 mb-6">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">🏃‍♂️</div>
+                  <h3 className="text-3xl font-black text-black mb-4 cartoon-text">운동 기록하기</h3>
+                  <p className="text-gray-600 font-semibold mb-6 text-lg">오늘의 운동을 기록해보세요!</p>
+                  
+                  <div className="max-w-md mx-auto space-y-4">
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="운동 이름 (예: 스쿼트)"
+                        className="w-full p-4 border-3 border-black rounded-2xl text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-300"
+                        id="exercise-name"
+                      />
                     </div>
-                    운동 일지
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-emerald-300 to-teal-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">오늘의 운동 💪</h4>
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center p-2 bg-white rounded-xl border-2 border-black">
-                          <span className="font-bold text-gray-800">스쿼트</span>
-                          <span className="bg-green-500 text-white px-2 py-1 rounded-full text-sm font-black">3세트 완료</span>
-                        </div>
-                        <div className="flex justify-between items-center p-2 bg-white rounded-xl border-2 border-black">
-                          <span className="font-bold text-gray-800">벤치프레스</span>
-                          <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-sm font-black">2세트 진행중</span>
-                        </div>
-                      </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <input
+                        type="number"
+                        placeholder="중량 (kg)"
+                        className="p-4 border-3 border-black rounded-2xl text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-300"
+                        id="exercise-weight"
+                      />
+                      <input
+                        type="number"
+                        placeholder="반복수"
+                        className="p-4 border-3 border-black rounded-2xl text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-300"
+                        id="exercise-reps"
+                      />
                     </div>
-                    <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">이번 주 통계 📊</h4>
-                      <div className="text-sm font-semibold text-gray-800">
-                        <p>• 총 운동 일수: 4일</p>
-                        <p>• 총 세트 수: 32세트</p>
-                        <p>• 평균 운동 시간: 65분</p>
-                      </div>
+                    <div>
+                      <input
+                        type="number"
+                        placeholder="세트 수"
+                        className="w-full p-4 border-3 border-black rounded-2xl text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-emerald-300"
+                        id="exercise-sets"
+                      />
                     </div>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    진행 상황
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-green-200 to-emerald-200 rounded-2xl p-4 border-3 border-black">
-                      <h4 className="font-black text-black text-lg mb-3">근력 향상 🏆</h4>
-                      <div className="space-y-3">
-                        <div>
-                          <div className="flex justify-between mb-1">
-                            <span className="font-bold text-gray-800">스쿼트 1RM</span>
-                            <span className="font-black text-green-600">+15kg ⬆️</span>
-                          </div>
-                          <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black">
-                            <div className="bg-green-500 h-full rounded-full border-r-2 border-black" style={{width: '75%'}}></div>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between mb-1">
-                            <span className="font-bold text-gray-800">벤치프레스 1RM</span>
-                            <span className="font-black text-blue-600">+8kg ⬆️</span>
-                          </div>
-                          <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black">
-                            <div className="bg-blue-500 h-full rounded-full border-r-2 border-black" style={{width: '60%'}}></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <button
+                      onClick={() => {
+                        const name = (document.getElementById('exercise-name') as HTMLInputElement)?.value;
+                        const weight = (document.getElementById('exercise-weight') as HTMLInputElement)?.value;
+                        const reps = (document.getElementById('exercise-reps') as HTMLInputElement)?.value;
+                        const sets = (document.getElementById('exercise-sets') as HTMLInputElement)?.value;
+                        
+                        if (name && weight && reps && sets) {
+                          const newRecord = {
+                            id: Date.now(),
+                            date: new Date().toISOString().split('T')[0],
+                            exercises: [{
+                              id: Date.now(),
+                              name: name,
+                              sets: Array.from({length: parseInt(sets)}, (_, i) => ({
+                                id: Date.now() + i,
+                                weight: parseFloat(weight),
+                                reps: parseInt(reps),
+                                completed: true
+                              })),
+                              targetSets: parseInt(sets),
+                              targetReps: reps,
+                              restTime: 2
+                            }],
+                            totalDuration: 30,
+                            notes: '',
+                            completed: true
+                          };
+                          
+                          setUserData(prev => ({
+                            ...prev,
+                            workoutRecords: [...prev.workoutRecords, newRecord]
+                          }));
+                          
+                          (document.getElementById('exercise-name') as HTMLInputElement).value = '';
+                          (document.getElementById('exercise-weight') as HTMLInputElement).value = '';
+                          (document.getElementById('exercise-reps') as HTMLInputElement).value = '';
+                          (document.getElementById('exercise-sets') as HTMLInputElement).value = '';
+                          
+                          alert('운동 기록이 저장되었습니다! 🎉');
+                        } else {
+                          alert('모든 필드를 입력해주세요.');
+                        }
+                      }}
+                      className="bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-black text-2xl py-4 px-8 rounded-3xl border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transform hover:scale-105 transition-all duration-300 w-full"
+                    >
+                      💾 운동 기록 저장
+                    </button>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
-                {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">📈</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎯</div>
+              <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon">
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text flex items-center">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                    <Calendar className="w-5 h-5 text-white" />
+                  </div>
+                  최근 운동 기록
+                </h3>
                 
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">운동 목표 및 성취</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="bg-gradient-to-br from-yellow-300 to-orange-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <div className="text-center">
-                      <div className="text-3xl mb-2">🎯</div>
-                      <h4 className="font-black text-black text-lg mb-2">이달의 목표</h4>
-                      <p className="font-bold text-gray-800">20회 운동 완료</p>
-                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
-                        <span className="text-orange-600 font-black">16/20 완료</span>
-                      </div>
-                    </div>
+                {userData.workoutRecords.length === 0 ? (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-4">📝</div>
+                    <p className="text-gray-600 font-semibold text-lg">아직 운동 기록이 없습니다.</p>
+                    <p className="text-gray-500 font-medium">첫 운동을 기록해보세요!</p>
                   </div>
-                  <div className="bg-gradient-to-br from-green-300 to-emerald-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <div className="text-center">
-                      <div className="text-3xl mb-2">🏆</div>
-                      <h4 className="font-black text-black text-lg mb-2">성취 배지</h4>
-                      <p className="font-bold text-gray-800">연속 출석 7일</p>
-                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
-                        <span className="text-green-600 font-black">달성!</span>
+                ) : (
+                  <div className="space-y-4">
+                    {userData.workoutRecords.slice(-5).reverse().map((record) => (
+                      <div key={record.id} className="bg-gradient-to-r from-emerald-100 to-teal-100 rounded-2xl p-4 border-3 border-black">
+                        <div className="flex justify-between items-center mb-3">
+                          <div className="flex items-center space-x-3">
+                            <span className="bg-emerald-500 text-white px-3 py-1 rounded-full text-sm font-black">
+                              📅 {record.date}
+                            </span>
+                            <span className="bg-teal-500 text-white px-3 py-1 rounded-full text-sm font-black">
+                              🏋️ {record.exercises.length}개 운동
+                            </span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setUserData(prev => ({
+                                ...prev,
+                                workoutRecords: prev.workoutRecords.filter(r => r.id !== record.id)
+                              }));
+                            }}
+                            className="bg-red-500 text-white font-black px-3 py-1 rounded-full text-sm hover:bg-red-600 transition-all"
+                          >
+                            🗑️ 삭제
+                          </button>
+                        </div>
+                        <div className="space-y-2">
+                          {record.exercises.map((exercise) => (
+                            <div key={exercise.id} className="bg-white rounded-xl p-3 border-2 border-gray-300">
+                              <div className="flex justify-between items-center">
+                                <span className="font-black text-gray-800">{exercise.name}</span>
+                                <span className="text-sm font-semibold text-gray-600">
+                                  {exercise.sets[0]?.weight}kg × {exercise.sets[0]?.reps}회 × {exercise.sets.length}세트
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  <div className="bg-gradient-to-br from-purple-300 to-pink-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
-                    <div className="text-center">
-                      <div className="text-3xl mb-2">🔥</div>
-                      <h4 className="font-black text-black text-lg mb-2">연속 기록</h4>
-                      <p className="font-bold text-gray-800">운동 스트릭</p>
-                      <div className="mt-3 bg-white rounded-2xl p-2 border-2 border-black">
-                        <span className="text-purple-600 font-black">7일째 🔥</span>
-                      </div>
+                )}
+              </div>
+
+              {userData.workoutRecords.length > 0 && (
+                <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon">
+                  <h3 className="text-2xl font-black text-black mb-6 cartoon-text">📊 운동 통계</h3>
+                  <div className="grid md:grid-cols-3 gap-4">
+                    <div className="bg-gradient-to-br from-blue-300 to-cyan-400 rounded-2xl p-4 border-3 border-black text-center">
+                      <div className="text-3xl mb-2">📈</div>
+                      <h4 className="font-black text-black text-lg mb-2">총 운동 일수</h4>
+                      <p className="text-2xl font-black text-blue-600">{userData.workoutRecords.length}일</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-green-300 to-emerald-400 rounded-2xl p-4 border-3 border-black text-center">
+                      <div className="text-3xl mb-2">🏋️</div>
+                      <h4 className="font-black text-black text-lg mb-2">총 운동 수</h4>
+                      <p className="text-2xl font-black text-green-600">
+                        {userData.workoutRecords.reduce((total, record) => total + record.exercises.length, 0)}개
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-300 to-pink-400 rounded-2xl p-4 border-3 border-black text-center">
+                      <div className="text-3xl mb-2">💪</div>
+                      <h4 className="font-black text-black text-lg mb-2">최근 활동</h4>
+                      <p className="text-lg font-black text-purple-600">
+                        {userData.workoutRecords.length > 0 ? 
+                          `${Math.ceil((Date.now() - new Date(userData.workoutRecords[userData.workoutRecords.length - 1].date).getTime()) / (1000 * 60 * 60 * 24))}일 전` 
+                          : '기록 없음'
+                        }
+                      </p>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         );
 
-      case 'community':
+      case 'faq':
         return (
           <div className="p-6 space-y-6 relative">
             {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-20 left-16 text-3xl text-violet-400/40 animate-bounce">👥</div>
-            <div className="absolute bottom-20 right-20 text-2xl text-purple-400/40 animate-pulse">🏆</div>
-            <div className="absolute top-1/2 right-12 text-xl text-indigo-400/40 animate-ping">💬</div>
+            <div className="absolute top-20 left-16 text-3xl text-violet-400/40 animate-bounce">❓</div>
+            <div className="absolute bottom-20 right-20 text-2xl text-purple-400/40 animate-pulse">💡</div>
+            <div className="absolute top-1/2 right-12 text-xl text-indigo-400/40 animate-ping">✨</div>
             
             <div className="bg-gradient-to-br from-violet-200/90 to-purple-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
               {/* 카툰풍 말풍선 꼬리 */}
@@ -2292,135 +1640,315 @@ const JwonderWorkOut = () => {
               
               <div className="flex items-center mb-6 relative z-10">
                 <div className="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <Users className="w-10 h-10 text-white drop-shadow-lg" />
+                  <span className="text-4xl">❓</span>
                 </div>
                 <div>
-                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">커뮤니티</h2>
-                  <p className="text-violet-800 font-bold text-xl">🤝 함께 운동해요! 🤝</p>
+                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">자주 묻는 질문</h2>
+                  <p className="text-violet-800 font-bold text-xl">💡 궁금한 것들을 해결해드려요! 💡</p>
                   {/* 카툰풍 효과음 */}
-                  <div className="absolute -top-2 right-4 text-2xl font-black text-blue-500/60 rotate-12 animate-pulse">CONNECT!</div>
+                  <div className="absolute -top-2 right-4 text-2xl font-black text-blue-500/60 rotate-12 animate-pulse">HELP!</div>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6 relative z-10">
+              {/* FAQ 섹션들 */}
+              <div className="space-y-6 relative z-10">
+                {/* 운동 기초 FAQ */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-violet-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Users className="w-5 h-5 text-white" />
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <span className="text-white text-sm">🏃</span>
                     </div>
-                    운동 친구
+                    운동 기초
                   </h3>
                   <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-violet-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-3">온라인 친구들 👫</h4>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between p-2 bg-white rounded-xl border-2 border-black">
-                          <div className="flex items-center">
-                            <div className="w-8 h-8 bg-green-500 rounded-full mr-2 border-2 border-black flex items-center justify-center">
-                              <span className="text-white font-bold text-xs">K</span>
-                            </div>
-                            <span className="font-bold text-gray-800">김헬스</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-xs font-bold">온라인</span>
-                            <span className="text-sm">🔥 15일</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between p-2 bg-white rounded-xl border-2 border-black">
-                          <div className="flex items-center">
-                            <div className="w-8 h-8 bg-blue-500 rounded-full mr-2 border-2 border-black flex items-center justify-center">
-                              <span className="text-white font-bold text-xs">P</span>
-                            </div>
-                            <span className="font-bold text-gray-800">박근육</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold">운동중</span>
-                            <span className="text-sm">💪 22일</span>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        운동을 처음 시작하는데 어떻게 해야 하나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 가벼운 유산소 운동(걷기, 조깅)부터 시작하여 몸을 적응시키고, 점차 근력 운동을 추가하세요. 무리하지 말고 본인의 체력에 맞게 천천히 강도를 높이는 것이 중요합니다! 💪
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        몇 번 정도 운동해야 효과가 있나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 초보자는 주 3회 정도가 적당합니다. 하루 운동하고 하루 쉬는 패턴으로 근육 회복 시간을 충분히 주세요. 일주일에 150분 이상의 중강도 운동이 권장됩니다! 🎯
+                      </p>
                     </div>
                   </div>
                 </div>
 
+                {/* 3대 운동 FAQ */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <Target className="w-5 h-5 text-white" />
+                    <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <span className="text-white text-sm">🏋️</span>
                     </div>
-                    챌린지
+                    3대 운동
                   </h3>
                   <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">이번 주 챌린지 🏃‍♂️</h4>
-                      <div className="bg-white rounded-xl p-3 border-2 border-black">
-                        <p className="font-bold text-gray-800 mb-2">30일 스쿼트 챌린지</p>
-                        <div className="w-full bg-gray-300 rounded-full h-3 border-2 border-black mb-2">
-                          <div className="bg-orange-500 h-full rounded-full border-r-2 border-black" style={{width: '40%'}}></div>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="font-bold text-gray-600">12/30일 완료</span>
-                          <span className="font-black text-orange-600">참여자 1,234명</span>
-                        </div>
-                      </div>
+                    <div className="bg-gradient-to-r from-red-100 to-pink-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        3대 운동이 뭔가요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 스쿼트(하체), 벤치프레스(가슴), 데드리프트(등)를 말합니다. 이 세 운동은 전신 근육을 효과적으로 단련할 수 있는 가장 기본적이고 중요한 복합 운동들입니다! 🦵💪🔥
+                      </p>
                     </div>
-                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">팀 챌린지 💪</h4>
-                      <div className="bg-white rounded-xl p-3 border-2 border-black">
-                        <p className="font-bold text-gray-800 mb-2">주간 총 운동시간 경쟁</p>
-                        <div className="text-center">
-                          <span className="text-2xl font-black text-green-600">2위</span>
-                          <p className="text-sm font-bold text-gray-600">우리 팀: 285분</p>
-                        </div>
-                      </div>
+                    <div className="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        3대 운동만 해도 충분한가요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 3대 운동은 훌륭한 기초이지만, 보조 운동들도 함께 하는 것이 좋습니다. 상황에 따라 덤벨 운동, 풀업, 딥스 등을 추가하여 균형잡힌 발달을 도모하세요! ⚖️
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 식단 FAQ */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <span className="text-white text-sm">🍽️</span>
+                    </div>
+                    식단 & 영양
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-orange-100 to-yellow-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        운동 전후로 뭘 먹어야 하나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 운동 전(1-2시간)에는 탄수화물 위주로, 운동 후 30분 내에는 단백질과 탄수화물을 3:1 비율로 섭취하세요. 바나나, 닭가슴살, 현미밥 등이 좋은 선택입니다! 🍌🍗🍚
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        단백질은 얼마나 먹어야 하나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 일반인은 체중 1kg당 0.8-1.2g, 근력 운동을 하는 분은 1.6-2.2g 정도가 권장됩니다. 예를 들어 70kg 남성이라면 하루 112-154g 정도의 단백질이 필요합니다! 📊
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 부상 예방 FAQ */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <span className="text-white text-sm">🛡️</span>
+                    </div>
+                    부상 예방
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-teal-100 to-cyan-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        워밍업이 꼭 필요한가요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 절대적으로 필요합니다! 5-10분간의 가벼운 유산소와 동적 스트레칭으로 근육 온도를 높이고 관절 가동성을 증가시켜 부상을 예방하세요! 🔥
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        운동 중 통증이 있으면 어떻게 해야 하나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 즉시 운동을 중단하고 휴식을 취하세요. 근육피로와 부상은 다릅니다. 48시간 후에도 통증이 지속되면 전문의와 상담하는 것이 좋습니다! ⚠️
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 운동 효과 FAQ */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <span className="text-white text-sm">📈</span>
+                    </div>
+                    운동 효과
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-pink-100 to-rose-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        운동 효과는 언제부터 나타나나요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 체력 향상은 2-3주, 근육량 증가는 6-8주, 체형 변화는 12주 정도 소요됩니다. 꾸준함이 가장 중요하니 포기하지 마세요! 시간은 당신의 편입니다! ⏰💪
+                      </p>
+                    </div>
+                    <div className="bg-gradient-to-r from-emerald-100 to-green-100 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
+                        <span className="text-green-600 mr-2">Q:</span>
+                        체중이 늘었는데 운동을 잘못하고 있는 건가요?
+                      </h4>
+                      <p className="text-gray-700 font-semibold pl-6">
+                        <span className="text-blue-600 font-black">A:</span> 걱정하지 마세요! 근육이 지방보다 무겁기 때문에 초기에는 체중이 늘 수 있습니다. 체중보다는 체지방률과 몸의 라인 변화에 집중하세요! 근육은 자산입니다! 💎
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
+              {/* FAQ 하단 도움말 */}
               <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
                 {/* 카툰풍 장식 */}
-                <div className="absolute top-2 right-2 text-2xl animate-bounce">💬</div>
-                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🌟</div>
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">💌</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🤝</div>
                 
-                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">커뮤니티 피드</h3>
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-blue-200 to-cyan-200 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-10 h-10 bg-blue-500 rounded-full border-2 border-black flex items-center justify-center">
-                        <span className="text-white font-bold">김</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-bold text-gray-800"><span className="text-blue-600">김헬스</span>님이 데드리프트 100kg 달성! 🎉</p>
-                        <p className="text-sm text-gray-600 mt-1">2시간 전</p>
-                        <div className="mt-2 flex space-x-2">
-                          <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full text-xs font-bold">❤️ 12</span>
-                          <span className="bg-yellow-300 text-yellow-800 px-2 py-1 rounded-full text-xs font-bold">👏 8</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-r from-green-200 to-emerald-200 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-10 h-10 bg-green-500 rounded-full border-2 border-black flex items-center justify-center">
-                        <span className="text-white font-bold">박</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-bold text-gray-800"><span className="text-green-600">박근육</span>님이 새로운 운동 루틴을 공유했습니다! 💪</p>
-                        <p className="text-sm text-gray-600 mt-1">5시간 전</p>
-                        <div className="mt-2 flex space-x-2">
-                          <span className="bg-red-300 text-red-800 px-2 py-1 rounded-full text-xs font-bold">❤️ 25</span>
-                          <span className="bg-blue-300 text-blue-800 px-2 py-1 rounded-full text-xs font-bold">💬 7</span>
-                        </div>
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text text-center">더 궁금한 것이 있으신가요?</h3>
+                
+                {!showConsultationForm ? (
+                  <div className="text-center">
+                    <div className="bg-gradient-to-r from-violet-300 to-purple-300 rounded-3xl p-6 border-4 border-black shadow-cartoon inline-block transform hover:scale-105 transition-all">
+                      <div className="text-4xl mb-3">🎯</div>
+                      <p className="font-black text-black text-lg mb-2">개인 맞춤 상담</p>
+                      <p className="text-gray-700 font-semibold text-sm mb-4">
+                        전문 트레이너와 1:1 상담을 통해<br/>
+                        당신만의 운동 계획을 세워보세요!
+                      </p>
+                      <div 
+                        className="bg-white rounded-2xl py-2 px-4 border-2 border-black cursor-pointer hover:bg-purple-50 transition-all"
+                        onClick={() => setShowConsultationForm(true)}
+                      >
+                        <span className="font-black text-purple-600">상담 신청하기 →</span>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-gradient-to-br from-purple-100 to-violet-100 rounded-3xl p-6 border-4 border-black shadow-cartoon">
+                    <h4 className="text-xl font-black text-black cartoon-text mb-4 text-center">🎯 상담 신청서</h4>
+                    
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">이름 *</label>
+                        <input
+                          type="text"
+                          value={consultationForm.name}
+                          onChange={(e) => handleConsultationFormChange('name', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          placeholder="홍길동"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">나이</label>
+                        <input
+                          type="text"
+                          value={consultationForm.age}
+                          onChange={(e) => handleConsultationFormChange('age', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          placeholder="25"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">이메일 *</label>
+                        <input
+                          type="email"
+                          value={consultationForm.email}
+                          onChange={(e) => handleConsultationFormChange('email', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          placeholder="example@email.com"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">전화번호 *</label>
+                        <input
+                          type="tel"
+                          value={consultationForm.phone}
+                          onChange={(e) => handleConsultationFormChange('phone', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          placeholder="010-1234-5678"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">운동 경험</label>
+                        <select
+                          value={consultationForm.experience}
+                          onChange={(e) => handleConsultationFormChange('experience', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          aria-label="운동 경험 선택"
+                        >
+                          <option value="">선택해주세요</option>
+                          <option value="처음">처음 시작</option>
+                          <option value="초급">초급 (6개월 미만)</option>
+                          <option value="중급">중급 (6개월-2년)</option>
+                          <option value="고급">고급 (2년 이상)</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">운동 목표</label>
+                        <select
+                          value={consultationForm.goal}
+                          onChange={(e) => handleConsultationFormChange('goal', e.target.value)}
+                          className="w-full p-3 border-2 border-black rounded-xl font-semibold"
+                          aria-label="운동 목표 선택"
+                        >
+                          <option value="">선택해주세요</option>
+                          <option value="체중감량">체중 감량</option>
+                          <option value="근력향상">근력 향상</option>
+                          <option value="근비대">근비대 (벌크업)</option>
+                          <option value="체력향상">체력 향상</option>
+                          <option value="재활">재활 운동</option>
+                          <option value="기타">기타</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <label className="block text-sm font-bold text-gray-700 mb-1">상담 내용</label>
+                      <textarea
+                        value={consultationForm.message}
+                        onChange={(e) => handleConsultationFormChange('message', e.target.value)}
+                        className="w-full p-3 border-2 border-black rounded-xl font-semibold h-24 resize-none"
+                        placeholder="궁금한 점이나 상담받고 싶은 내용을 자유롭게 작성해주세요!"
+                      />
+                    </div>
+
+                    <div className="flex gap-3 justify-center">
+                      <button
+                        onClick={submitConsultation}
+                        disabled={isSubmittingConsultation}
+                        className="bg-gradient-to-r from-purple-500 to-violet-600 text-white font-black py-3 px-6 rounded-2xl border-3 border-black shadow-cartoon hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                      >
+                        {isSubmittingConsultation ? '신청 중...' : '📩 상담 신청하기'}
+                      </button>
+                      <button
+                        onClick={resetConsultationForm}
+                        className="bg-gray-300 text-black font-black py-3 px-6 rounded-2xl border-3 border-black shadow-cartoon hover:scale-105 transition-all"
+                      >
+                        취소
+                      </button>
+                    </div>
+
+                    <p className="text-xs text-gray-600 text-center mt-3">
+                      * 필수 입력 항목 | 신청 후 1-2일 내 연락드립니다.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         );
-      default:
+      case 'beginner':
         return (
           <div className="p-6 space-y-6 relative">
             {/* 카툰풍 배경 장식 요소들 */}
@@ -2457,21 +1985,373 @@ const JwonderWorkOut = () => {
     }
   };
 
+  // 상담 신청 관련 함수들
+  const handleConsultationFormChange = (field: string, value: string) => {
+    setConsultationForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const resetConsultationForm = () => {
+    setConsultationForm({
+      name: '',
+      email: '',
+      phone: '',
+      age: '',
+      experience: '',
+      goal: '',
+      message: ''
+    });
+    setShowConsultationForm(false);
+  };
+
+  const submitConsultation = async () => {
+    // 필수 필드 검증
+    if (!consultationForm.name || !consultationForm.email || !consultationForm.phone) {
+      alert('이름, 이메일, 전화번호는 필수 입력 항목입니다.');
+      return;
+    }
+
+    // 이메일 유효성 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(consultationForm.email)) {
+      alert('올바른 이메일 주소를 입력해주세요.');
+      return;
+    }
+
+    setIsSubmittingConsultation(true);
+
+    try {
+      // FormSubmit.co를 사용한 실제 메일 발송 (무료 서비스)
+      const formData = new FormData();
+      formData.append('name', consultationForm.name);
+      formData.append('email', consultationForm.email);
+      formData.append('phone', consultationForm.phone);
+      formData.append('age', consultationForm.age || '미입력');
+      formData.append('experience', consultationForm.experience || '미입력');
+      formData.append('goal', consultationForm.goal || '미입력');
+      formData.append('message', consultationForm.message || '별도 문의사항 없음');
+      formData.append('submit_time', new Date().toLocaleString('ko-KR'));
+      formData.append('_subject', `JWONDER 운동 상담 신청 - ${consultationForm.name}`);
+      formData.append('_captcha', 'false'); // 캡차 비활성화
+      formData.append('_template', 'table'); // 깔끔한 테이블 형식
+
+      // FormSubmit API 호출
+      const response = await fetch('https://formsubmit.co/jvic83@naver.com', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        alert('상담 신청이 완료되었습니다! jvic83@naver.com으로 메일이 발송되었습니다. 빠른 시일 내에 연락드리겠습니다. 💪');
+        resetConsultationForm();
+      } else {
+        throw new Error('메일 발송 실패');
+      }
+      
+    } catch (error) {
+      console.error('상담 신청 중 오류:', error);
+      
+      // 실패시 fallback으로 mailto 사용
+      const emailContent = `
+새로운 상담 신청이 있습니다.
+
+📋 신청자 정보:
+- 이름: ${consultationForm.name}
+- 이메일: ${consultationForm.email}
+- 전화번호: ${consultationForm.phone}
+- 나이: ${consultationForm.age || '미입력'}
+- 운동 경험: ${consultationForm.experience || '미입력'}
+- 운동 목표: ${consultationForm.goal || '미입력'}
+
+💬 상담 내용:
+${consultationForm.message || '별도 문의사항 없음'}
+
+신청 시간: ${new Date().toLocaleString('ko-KR')}
+      `.trim();
+
+      const mailtoLink = `mailto:jvic83@naver.com?subject=JWONDER 운동 상담 신청 - ${consultationForm.name}&body=${encodeURIComponent(emailContent)}`;
+      window.location.href = mailtoLink;
+      
+      alert('상담 신청이 완료되었습니다! 메일 클라이언트가 열립니다. 💪');
+      resetConsultationForm();
+      
+    } finally {
+      setIsSubmittingConsultation(false);
+    }
+  };
+
+  // 디버깅을 위한 useEffect 추가
+  useEffect(() => {
+    console.log('JwonderWorkOut 컴포넌트가 마운트되었습니다.');
+  }, []);
+
   if (selectedCard) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-orange-100 to-pink-200 relative overflow-hidden">
-        {/* 카툰 스타일 배경 장식 요소들 */}
+      <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-50 to-pink-100 relative overflow-hidden">
+        {/* 올드스쿨 카툰 스타일 배경 장식 요소들 */}
         <div className="absolute inset-0">
-          {/* 카툰풍 그라데이션 오버레이 */}
-          <div className="absolute inset-0 bg-gradient-radial from-yellow-300/50 via-transparent to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-radial from-cyan-200/40 via-transparent to-transparent"></div>
+          {/* 클래식 카툰풍 그라데이션 오버레이 */}
+          <div className="absolute inset-0 bg-gradient-radial from-yellow-200/60 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-radial from-pink-200/40 via-transparent to-transparent"></div>
           
-          {/* 카툰 스타일 점 패턴 */}
-          <div className="absolute top-0 left-0 w-full h-full opacity-30 bg-cartoon-dots"></div>
+          {/* 올드스쿨 카툰 스타일 점 패턴 */}
+          <div className="absolute top-0 left-0 w-full h-full opacity-30">
+            <div className="absolute top-10 left-10 w-4 h-4 bg-red-400 rounded-full"></div>
+            <div className="absolute top-20 right-20 w-3 h-3 bg-blue-400 rounded-full"></div>
+            <div className="absolute bottom-32 left-24 w-5 h-5 bg-green-400 rounded-full"></div>
+            <div className="absolute bottom-48 right-16 w-3 h-3 bg-purple-400 rounded-full"></div>
+            <div className="absolute top-40 left-1/3 w-4 h-4 bg-orange-400 rounded-full"></div>
+            <div className="absolute top-60 right-1/3 w-3 h-3 bg-cyan-400 rounded-full"></div>
+          </div>
+
+          {/* 클래식 카툰풍 효과음 텍스트들 */}
+          <div className="absolute top-16 left-8 text-6xl font-black text-red-400/25 rotate-12 select-none pointer-events-none animate-pulse">WORKOUT!</div>
+          <div className="absolute top-32 right-12 text-4xl font-black text-blue-400/25 -rotate-12 select-none pointer-events-none animate-bounce">STRONG!</div>
+          <div className="absolute bottom-32 left-16 text-5xl font-black text-green-400/25 rotate-45 select-none pointer-events-none animate-pulse">POWER!</div>
+          <div className="absolute bottom-16 right-32 text-3xl font-black text-purple-400/25 -rotate-45 select-none pointer-events-none animate-bounce">FIT!</div>
           
-          {/* 카툰풍 효과음 텍스트들 */}
-          <div className="absolute top-32 left-20 text-6xl font-black text-red-500/20 rotate-12 select-none pointer-events-none">POW!</div>
-          <div className="absolute top-60 right-32 text-4xl font-black text-blue-500/20 -rotate-12 select-none pointer-events-none">BAM!</div>
+          {/* 올드스쿨 카툰 스타일 장식 요소들 */}
+          <div className="absolute top-24 right-1/3 w-12 h-12 border-4 border-yellow-400/30 rounded-full animate-spin-slow"></div>
+          <div className="absolute bottom-24 left-1/3 w-10 h-10 border-4 border-pink-400/30 rounded-full animate-bounce"></div>
+          <div className="absolute top-1/2 right-8 w-6 h-6 bg-blue-400/30 transform rotate-45 animate-pulse"></div>
+          <div className="absolute bottom-1/3 left-8 w-8 h-8 bg-green-400/30 transform rotate-12 animate-bounce"></div>
+        </div>
+
+        {/* 기존 카툰 스타일 네비게이션 */}
+        <div className="max-w-6xl mx-auto mb-8 relative z-10 p-4">
+          <div className="relative">
+            <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
+              {/* 말풍선 꼬리 */}
+              <div className="absolute -top-4 left-8 w-8 h-8 bg-white border-l-4 border-t-4 border-black transform rotate-45"></div>
+              
+              <div className="flex justify-between items-center">
+                <div 
+                  title="메인 페이지로 이동" 
+                  className="flex items-center space-x-4 cursor-pointer hover:scale-105 transition-all duration-300 rounded-2xl p-2 hover:bg-yellow-100"
+                  onClick={() => setSelectedCard(null)}
+                >
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-4 border-black">
+                    <Dumbbell className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h1 className="text-4xl font-black text-black cartoon-text">JWONDER</h1>
+                    <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 선택된 카드의 콘텐츠 */}
+        {renderCardContent()}
+        
+        {/* 카툰 스타일 풋터 */}
+        <footer className="relative z-10 mt-16 pb-8">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
+              {/* 말풍선 꼬리 */}
+              <div className="absolute -top-4 left-8 w-8 h-8 bg-white border-l-4 border-t-4 border-black transform rotate-45"></div>
+              
+              {/* 간단한 풋터 콘텐츠 */}
+              <div className="text-center">
+                {/* 브랜드 섹션 */}
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-3 border-black">
+                    <Dumbbell className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-xl font-black text-black cartoon-text">JWONDER FITNESS</h3>
+                </div>
+                
+                {/* 소셜 아이콘들 */}
+                <div className="flex justify-center space-x-3 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                    <span className="text-white text-sm">📘</span>
+                  </div>
+                  <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-red-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                    <span className="text-white text-sm">📷</span>
+                  </div>
+                  <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                    <span className="text-white text-sm">💬</span>
+                  </div>
+                </div>
+
+                {/* 카피라이트 */}
+                <p className="text-gray-600 font-semibold text-xs">
+                  © 2024 JWONDER Fitness. 
+                  <span className="text-orange-600 ml-1">🎪 Made with ❤️ 💪</span>
+                </p>
+              </div>
+
+              {/* 카툰풍 장식 효과 */}
+              <div className="absolute -top-2 -right-2 text-lg font-black text-orange-500/60 rotate-12 animate-pulse">💪</div>
+              <div className="absolute -bottom-2 -left-2 text-lg font-black text-blue-500/60 -rotate-12 animate-bounce">🎪</div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  // 메인 대시보드 화면
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-50 to-pink-100 relative overflow-hidden">
+      {/* 올드스쿨 카툰 스타일 배경 장식 요소들 */}
+      <div className="absolute inset-0">
+        {/* 클래식 카툰풍 그라데이션 오버레이 */}
+        <div className="absolute inset-0 bg-gradient-radial from-yellow-200/60 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-pink-200/40 via-transparent to-transparent"></div>
+        
+        {/* 올드스쿨 카툰 스타일 점 패턴 */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-30">
+          <div className="absolute top-10 left-10 w-4 h-4 bg-red-400 rounded-full"></div>
+          <div className="absolute top-20 right-20 w-3 h-3 bg-blue-400 rounded-full"></div>
+          <div className="absolute bottom-32 left-24 w-5 h-5 bg-green-400 rounded-full"></div>
+          <div className="absolute bottom-48 right-16 w-3 h-3 bg-purple-400 rounded-full"></div>
+          <div className="absolute top-40 left-1/3 w-4 h-4 bg-orange-400 rounded-full"></div>
+          <div className="absolute top-60 right-1/3 w-3 h-3 bg-cyan-400 rounded-full"></div>
+        </div>
+
+        {/* 클래식 카툰풍 효과음 텍스트들 - 더 크고 대담한 스타일 */}
+        <div className="absolute top-16 left-8 text-7xl font-black text-red-400/30 rotate-12 select-none pointer-events-none animate-pulse transform hover:scale-110 transition-all duration-300">BOOM!</div>
+        <div className="absolute top-32 right-12 text-5xl font-black text-blue-400/30 -rotate-12 select-none pointer-events-none animate-bounce transform hover:scale-110 transition-all duration-300">POW!</div>
+        <div className="absolute bottom-32 left-16 text-6xl font-black text-green-400/30 rotate-45 select-none pointer-events-none animate-pulse transform hover:scale-110 transition-all duration-300">ZAP!</div>
+        <div className="absolute bottom-16 right-32 text-4xl font-black text-purple-400/30 -rotate-45 select-none pointer-events-none animate-bounce transform hover:scale-110 transition-all duration-300">WHAM!</div>
+        <div className="absolute top-1/2 left-1/4 text-5xl font-black text-orange-400/20 rotate-12 select-none pointer-events-none animate-ping transform hover:scale-110 transition-all duration-300">KAPOW!</div>
+        <div className="absolute top-1/3 right-1/4 text-4xl font-black text-cyan-400/20 -rotate-12 select-none pointer-events-none animate-pulse transform hover:scale-110 transition-all duration-300">BANG!</div>
+        
+        {/* 올드스쿨 카툰 스타일 장식 요소들 */}
+        <div className="absolute top-24 right-1/3 w-16 h-16 border-4 border-yellow-400/40 rounded-full animate-spin-slow"></div>
+        <div className="absolute bottom-24 left-1/3 w-12 h-12 border-4 border-pink-400/40 rounded-full animate-bounce"></div>
+        <div className="absolute top-1/2 right-8 w-8 h-8 bg-blue-400/40 transform rotate-45 animate-pulse"></div>
+        <div className="absolute bottom-1/3 left-8 w-10 h-10 bg-green-400/40 transform rotate-12 animate-bounce"></div>
+      </div>
+
+      {/* 기존 카툰 스타일 네비게이션 */}
+      <div className="max-w-6xl mx-auto mb-8 relative z-10 p-4">
+        <div className="relative">
+          <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
+            {/* 말풍선 꼬리 */}
+            <div className="absolute -bottom-4 left-8 w-8 h-8 bg-white border-l-4 border-b-4 border-black transform rotate-45"></div>
+            
+            <div className="flex justify-between items-center">
+              <div 
+                title="메인 페이지로 이동" 
+                className="flex items-center space-x-4 cursor-pointer hover:scale-105 transition-all duration-300 rounded-2xl p-2 hover:bg-yellow-100"
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-4 border-black">
+                  <Dumbbell className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-black text-black cartoon-text">JWONDER</h1>
+                  <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 카드 그리드 */}
+      <div className="p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-4 md:grid-cols-6 gap-4 auto-rows-fr">
+            {cards.map((card) => (
+              <div
+                key={card.id}
+                data-card-id={card.id}
+                className={`
+                  ${getCardSizeClass(card.size)}
+                  ${card.color}
+                  ${draggedCard?.id === card.id ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}
+                  rounded-3xl p-6 border-4 border-black shadow-cartoon 
+                  hover:shadow-cartoon-hover transition-all duration-300 
+                  cursor-pointer transform hover:scale-105 hover:-rotate-2
+                  flex flex-col items-center justify-center text-center
+                  select-none relative overflow-hidden
+                `}
+                draggable
+                onDragStart={(e) => handleDragStart(e, card)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, card)}
+                onDragEnd={handleDragEnd}
+                onTouchStart={(e) => handleTouchStart(e, card)}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onTouchCancel={handleTouchCancel}
+                onClick={() => handleCardClick(card)}
+              >
+                {/* 올드스쿨 카툰풍 광택 효과 - 더 강하게 */}
+                <div className="absolute top-2 left-2 w-10 h-10 bg-white/50 rounded-full blur-sm"></div>
+                <div className="absolute top-1 left-1 w-6 h-6 bg-white/70 rounded-full"></div>
+                
+                {/* 아이콘 */}
+                <div className={`${getIconSize(card.size)} flex items-center justify-center relative z-10`}>
+                  <span className="drop-shadow-lg filter brightness-110">{card.icon}</span>
+                </div>
+                
+                {/* 제목 */}
+                <h3 className={`${getTextSize(card.size)} font-black text-black cartoon-text drop-shadow-lg relative z-10`}>
+                  {card.title}
+                </h3>
+                
+                {/* 올드스쿨 카툰풍 테두리 하이라이트 - 더 두껍게 */}
+                <div className="absolute inset-1 border-3 border-white/40 rounded-2xl pointer-events-none"></div>
+                <div className="absolute inset-2 border-2 border-black/20 rounded-xl pointer-events-none"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 카툰 스타일 풋터 */}
+      <footer className="relative z-10 mt-16 pb-8">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative">
+            {/* 말풍선 꼬리 */}
+            <div className="absolute -top-4 left-8 w-8 h-8 bg-white border-l-4 border-t-4 border-black transform rotate-45"></div>
+            
+            {/* 간단한 풋터 콘텐츠 */}
+            <div className="text-center">
+              {/* 브랜드 섹션 */}
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center shadow-cartoon border-3 border-black">
+                  <Dumbbell className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-xl font-black text-black cartoon-text">JWONDER WorkOut</h3>
+              </div>
+              
+              {/* 소셜 아이콘들 */}
+              <div className="flex justify-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                  <span className="text-white text-sm">📘</span>
+                </div>
+                <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-red-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                  <span className="text-white text-sm">📷</span>
+                </div>
+                <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-cartoon border-2 border-black cursor-pointer hover:scale-110 transition-all duration-300">
+                  <span className="text-white text-sm">💬</span>
+                </div>
+              </div>
+
+              {/* 카피라이트 */}
+              <p className="text-gray-600 font-semibold text-xs">
+                © 2025 JWONDER Workout. 
+                <span className="text-orange-600 ml-1">🎪 Made with JWONDER 💪</span>
+              </p>
+            </div>
+
+            {/* 카툰풍 장식 효과 */}
+            <div className="absolute -top-2 -right-2 text-lg font-black text-orange-500/60 rotate-12 animate-pulse">💪</div>
+            <div className="absolute -bottom-2 -left-2 text-lg font-black text-blue-500/60 -rotate-12 animate-bounce">🎪</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 };
 
 export default JwonderWorkOut; 
+
