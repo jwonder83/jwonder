@@ -107,26 +107,26 @@ interface UserData {
 const JwonderWorkOut = () => {
   const [cards, setCards] = useState<Card[]>([
     // 3대운동 개별 카드들 - 완전히 독립적인 색상
-    { id: 'squat', title: '스쿼트', icon: '🦵', size: 'large', category: 'squat', color: 'bg-gradient-to-br from-emerald-300 via-teal-400 to-green-500' },
-    { id: 'bench', title: '벤치프레스', icon: '🏋️', size: 'large', category: 'bench', color: 'bg-gradient-to-br from-red-400 via-orange-500 to-amber-600' },
-    { id: 'deadlift', title: '데드리프트', icon: '💥', size: 'wide', category: 'deadlift', color: 'bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600' },
+    { id: 'squat', title: '스쿼트', icon: '🏋️‍♀️', size: 'large', category: 'squat', color: 'bg-gradient-to-br from-emerald-300 via-teal-400 to-green-500' },
+    { id: 'bench', title: '벤치프레스', icon: '🏋️‍♂️', size: 'large', category: 'bench', color: 'bg-gradient-to-br from-red-400 via-orange-500 to-amber-600' },
+    { id: 'deadlift', title: '데드리프트', icon: '🤸‍♂️', size: 'wide', category: 'deadlift', color: 'bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600' },
     
     // 운동 프로그램 개별 카드들
-    { id: 'beginner', title: '프로그램', icon: '📚', size: 'small', category: 'beginner', color: 'bg-gradient-to-br from-blue-300 via-sky-400 to-cyan-500' },
+    { id: 'beginner', title: '프로그램', icon: '📋', size: 'small', category: 'beginner', color: 'bg-gradient-to-br from-blue-300 via-sky-400 to-cyan-500' },
     { id: 'strength', title: '근력 향상', icon: '💪', size: 'medium', category: 'strength', color: 'bg-gradient-to-br from-yellow-300 via-lime-400 to-chartreuse-500' },
     { id: 'hypertrophy', title: '근비대', icon: '🔥', size: 'small', category: 'hypertrophy', color: 'bg-gradient-to-br from-pink-400 via-rose-500 to-red-600' },
     
     // 식단 & 영양 개별 카드들
-    { id: 'goals', title: '목표 설정', icon: '🏆', size: 'medium', category: 'goals', color: 'bg-gradient-to-br from-amber-300 via-orange-400 to-red-500' },
-    { id: 'nutrition-calc', title: '영양 계산기', icon: '⚖️', size: 'wide', category: 'nutrition-calc', color: 'bg-gradient-to-br from-lime-300 via-green-400 to-emerald-500' },
-    { id: 'meals', title: '식단 추천', icon: '🍽️', size: 'small', category: 'meals', color: 'bg-gradient-to-br from-fuchsia-300 via-purple-400 to-violet-500' },
+    { id: 'goals', title: '목표 설정', icon: '🎯', size: 'medium', category: 'goals', color: 'bg-gradient-to-br from-amber-300 via-orange-400 to-red-500' },
+    { id: 'nutrition-calc', title: '영양 계산기', icon: '🧮', size: 'wide', category: 'nutrition-calc', color: 'bg-gradient-to-br from-lime-300 via-green-400 to-emerald-500' },
+    { id: 'meals', title: '식단 추천', icon: '🍎', size: 'small', category: 'meals', color: 'bg-gradient-to-br from-fuchsia-300 via-purple-400 to-violet-500' },
     
     // 1RM 계산기
-    { id: 'calculator', title: '1RM 계산기', icon: '🔢', size: 'large', category: 'calculator', color: 'bg-gradient-to-br from-slate-300 via-gray-400 to-zinc-500' },
+    { id: 'calculator', title: '1RM 계산기', icon: '🧠', size: 'large', category: 'calculator', color: 'bg-gradient-to-br from-slate-300 via-gray-400 to-zinc-500' },
     
     // 기타 카드들
-    { id: 'workout-log', title: '운동 기록', icon: '📝', size: 'medium', category: 'workout-log', color: 'bg-gradient-to-br from-teal-300 via-cyan-400 to-sky-500' },
-    { id: 'faq', title: 'FAQ', icon: '❓', size: 'small', category: 'faq', color: 'bg-gradient-to-br from-indigo-300 via-blue-400 to-purple-500' },
+    { id: 'workout-log', title: '운동 기록', icon: '📊', size: 'medium', category: 'workout-log', color: 'bg-gradient-to-br from-teal-300 via-cyan-400 to-sky-500' },
+    { id: 'faq', title: 'FAQ', icon: '🤔', size: 'small', category: 'faq', color: 'bg-gradient-to-br from-indigo-300 via-blue-400 to-purple-500' },
   ]);
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -2473,7 +2473,7 @@ const JwonderWorkOut = () => {
       case 'meals':
         return (
           <div className="p-6 space-y-6 relative">
-            <div className="absolute top-20 left-16 text-3xl text-violet-400/40 animate-bounce">🍽️</div>
+            <div className="absolute top-20 left-16 text-3xl text-violet-400/40 animate-bounce">🍎</div>
             <div className="absolute bottom-20 right-20 text-2xl text-purple-400/40 animate-pulse">🥗</div>
             <div className="absolute top-1/2 right-12 text-xl text-indigo-400/40 animate-ping">✨</div>
             
@@ -2482,7 +2482,7 @@ const JwonderWorkOut = () => {
               
               <div className="flex items-center mb-6 relative z-10">
                 <div className="w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
-                  <span className="text-4xl">🍽️</span>
+                  <span className="text-4xl">🍎</span>
                 </div>
                 <div>
                   <h2 className="text-4xl font-black text-black cartoon-text mb-2">식단 추천</h2>
