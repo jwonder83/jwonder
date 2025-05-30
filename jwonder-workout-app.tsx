@@ -12,9 +12,21 @@ import {
   X,
   Users,
   Calendar,
-  Zap
+  Zap,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  Play,
+  Pause,
+  RotateCcw,
+  Award,
+  Heart,
+  MessageCircle,
+  Share2,
+  Bookmark
 } from 'lucide-react';
-import BigThreeModal from './components/BigThreeModal';
 
 // 타입 정의
 interface Card {
@@ -106,7 +118,6 @@ interface UserData {
 
 const JwonderWorkOut = () => {
   const [cards, setCards] = useState<Card[]>([
-    // 3대운동 개별 카드들 - 완전히 독립적인 색상
     { id: 'squat', title: '스쿼트', icon: '🦵', size: 'large', category: 'squat', color: 'bg-gradient-to-br from-emerald-300 via-teal-400 to-green-500' },
     { id: 'bench', title: '벤치프레스', icon: '🏋️', size: 'large', category: 'bench', color: 'bg-gradient-to-br from-red-400 via-orange-500 to-amber-600' },
     { id: 'deadlift', title: '데드리프트', icon: '💥', size: 'wide', category: 'deadlift', color: 'bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600' },
@@ -135,8 +146,6 @@ const JwonderWorkOut = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [draggedElement, setDraggedElement] = useState<HTMLElement | null>(null);
   
-  // 3대운동 모달 상태
-  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const [userData, setUserData] = useState<UserData>({
     programs: [],
@@ -2823,7 +2832,6 @@ ${consultationForm.message || '별도 문의사항 없음'}
   // 페이지 로드 시 모달 자동 열기
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsModalOpen(true);
     }, 1500); // 1.5초 후 모달 열기
 
     return () => clearTimeout(timer);
@@ -2882,13 +2890,9 @@ ${consultationForm.message || '별도 문의사항 없음'}
                     <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
                   </div>
                   
-                  {/* 3대운동 모달 버튼 */}
                   <button
-                    onClick={() => setIsModalOpen(true)}
                     className="ml-4 px-4 py-2 bg-gradient-to-r from-purple-400 to-pink-400 text-black rounded-2xl border-3 border-black font-bold text-sm hover:from-purple-500 hover:to-pink-500 transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                    aria-label="3대운동 정보 보기"
                   >
-                    🏋️‍♂️ BIG 3
                   </button>
                 </div>
               </div>
@@ -3101,10 +3105,6 @@ ${consultationForm.message || '별도 문의사항 없음'}
         </div>
       </footer>
       
-      {/* 3대운동 모달 */}
-      <BigThreeModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
         onExerciseClick={(exerciseId) => {
           const exerciseCard = cards.find(card => card.id === exerciseId);
           if (exerciseCard) {
