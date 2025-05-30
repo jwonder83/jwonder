@@ -3105,6 +3105,12 @@ ${consultationForm.message || '별도 문의사항 없음'}
       <BigThreeModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
+        onExerciseClick={(exerciseId) => {
+          const exerciseCard = cards.find(card => card.id === exerciseId);
+          if (exerciseCard) {
+            setSelectedCard(exerciseCard);
+          }
+        }}
       />
     </div>
   );

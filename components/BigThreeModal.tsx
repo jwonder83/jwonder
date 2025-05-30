@@ -6,29 +6,38 @@ import { X, Dumbbell } from 'lucide-react'
 interface BigThreeModalProps {
   isOpen: boolean
   onClose: () => void
+  onExerciseClick: (exerciseId: string) => void
 }
 
-const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose }) => {
+const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose, onExerciseClick }) => {
   const exercises = [
     {
       name: "스쿼트",
       emoji: "🦵", 
       color: "bg-red-400",
-      description: "하체 근력의 기초!"
+      description: "하체 근력의 기초!",
+      id: "squat"
     },
     {
       name: "벤치프레스", 
       emoji: "💪",
       color: "bg-blue-400",
-      description: "상체 근력의 핵심!"
+      description: "상체 근력의 핵심!",
+      id: "bench"
     },
     {
       name: "데드리프트",
       emoji: "🔥",
       color: "bg-green-400", 
-      description: "전신 근력의 왕!"
+      description: "전신 근력의 왕!",
+      id: "deadlift"
     }
   ]
+
+  const handleExerciseClick = (exerciseId: string) => {
+    onExerciseClick(exerciseId)
+    onClose() // 모달 닫기
+  }
 
   if (!isOpen) return null
 
@@ -67,28 +76,34 @@ const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose }) => {
         {/* 운동 카드들 */}
         <div className="p-4 space-y-3">
           {exercises.map((exercise, index) => (
-            <div
+            <button
               key={exercise.name}
-              className={`${exercise.color} p-4 rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200`}
+              onClick={() => handleExerciseClick(exercise.id)}
+              className={`w-full ${exercise.color} p-4 rounded-xl border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 cursor-pointer hover:scale-105`}
             >
               <div className="flex items-center space-x-4">
                 <div className="text-3xl">{exercise.emoji}</div>
-                <div className="flex-1">
+                <div className="flex-1 text-left">
                   <h3 className="text-lg font-black text-black">{exercise.name}</h3>
                   <p className="text-sm font-medium text-black opacity-80">{exercise.description}</p>
                 </div>
-                <div className="text-2xl font-black text-black opacity-30">
-                  {index + 1}
+                <div className="flex items-center space-x-2">
+                  <div className="text-2xl font-black text-black opacity-30">
+                    {index + 1}
+                  </div>
+                  <div className="text-xl font-black text-black opacity-50">
+                    →
+                  </div>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 
         {/* 하단 메시지 */}
         <div className="p-4 border-t-4 border-black bg-purple-200">
           <p className="text-center text-sm font-bold text-black">
-            🎯 이 3가지만 꾸준히 하면 몸이 달라져요!
+            🎯 운동을 클릭하면 상세 가이드로 이동해요!
           </p>
         </div>
       </div>
