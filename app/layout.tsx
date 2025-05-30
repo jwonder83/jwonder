@@ -1,4 +1,5 @@
 import './globals.css'
+import FloatingChatbot from '../components/FloatingChatbot'
 
 export const metadata = {
   title: 'Jwonder Work Out',
@@ -19,7 +20,10 @@ export default function RootLayout({
           rel="stylesheet" 
         />
       </head>
-      <body className="font-pretendard">{children}</body>
+      <body className="font-pretendard">
+        {children}
+        <FloatingChatbot />
+      </body>
     </html>
   )
 } 

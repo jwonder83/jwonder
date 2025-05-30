@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 커스텀 덤벨 커서 */
+@layer base {
+  /* 기본 커서를 덤벨로 변경 */
+  html, body {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="20">🏋️</text></svg>') 16 16, auto;
+  }
+  
+  /* 클릭 가능한 요소들의 포인터 커서를 덤벨로 변경 */
+  button, a, [role="button"], input[type="submit"], input[type="button"] {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="20">💪</text></svg>') 16 16, pointer;
+  }
+  
+  /* 입력 필드들은 텍스트 커서 유지하되 근육 이모지로 */
+  input[type="text"], input[type="email"], input[type="password"], textarea {
+    cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="24" font-size="18">💪</text></svg>') 16 16, text;
+  }
+}
+
 /* Pretendard 폰트 최적화 */
 @layer base {
   html {

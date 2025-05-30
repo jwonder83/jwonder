@@ -14,6 +14,7 @@ import {
   Calendar,
   Zap
 } from 'lucide-react';
+import BigThreeModal from './components/BigThreeModal';
 
 // 타입 정의
 interface Card {
@@ -133,6 +134,10 @@ const JwonderWorkOut = () => {
   const [touchStartPos, setTouchStartPos] = useState<{ x: number; y: number } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [draggedElement, setDraggedElement] = useState<HTMLElement | null>(null);
+  
+  // 3대운동 모달 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [userData, setUserData] = useState<UserData>({
     programs: [],
     nutrition: [],
@@ -1118,25 +1123,25 @@ const JwonderWorkOut = () => {
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">1</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">발을 바벨 밑에 두고 엉덩이폭으로 벌리기</span>
                   </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">2</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">허리는 중립을 유지하고 가슴을 펴기</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">3</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">바벨은 정강이에 가깝게 유지</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">4</span>
-                      </div>
+                  </div>
                       <span className="font-semibold">엉덩이와 무릎을 동시에 펴서 들어올리기</span>
                     </li>
               </ul>
@@ -1153,30 +1158,30 @@ const JwonderWorkOut = () => {
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">💪</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">광배근, 승모근, 기립근 강화</span>
                   </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">🔥</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">햄스트링, 둔근 개발</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">⚡</span>
-                      </div>
+                    </div>
                       <span className="font-semibold">후면 사슬 전체 강화</span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-6 h-6 bg-violet-500 rounded-full border-2 border-black mt-1 mr-4 flex-shrink-0 flex items-center justify-center">
                         <span className="text-white font-bold text-xs">✨</span>
-                      </div>
+                  </div>
                       <span className="font-semibold">그립력 및 코어 안정성 향상</span>
                     </li>
               </ul>
-            </div>
-          </div>
+                </div>
+              </div>
 
               <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
                 {/* 카툰풍 장식 */}
@@ -1297,9 +1302,9 @@ const JwonderWorkOut = () => {
                   </div>
                 </div>
               </div>
-        </div>
-      </div>
-    );
+            </div>
+          </div>
+        );
 
       case 'goals':
         return (
@@ -1673,7 +1678,7 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 가벼운 유산소 운동(걷기, 조깅)부터 시작하여 몸을 적응시키고, 점차 근력 운동을 추가하세요. 무리하지 말고 본인의 체력에 맞게 천천히 강도를 높이는 것이 중요합니다! 💪
                       </p>
-                    </div>
+                        </div>
                     <div className="bg-gradient-to-r from-blue-100 to-cyan-100 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
                         <span className="text-green-600 mr-2">Q:</span>
@@ -1682,16 +1687,16 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 초보자는 주 3회 정도가 적당합니다. 하루 운동하고 하루 쉬는 패턴으로 근육 회복 시간을 충분히 주세요. 일주일에 150분 이상의 중강도 운동이 권장됩니다! 🎯
                       </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
 
                 {/* 3대 운동 FAQ */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
                     <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
                       <span className="text-white text-sm">🏋️</span>
-                    </div>
+                      </div>
                     3대 운동
                   </h3>
                   <div className="space-y-4">
@@ -1733,7 +1738,7 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 운동 전(1-2시간)에는 탄수화물 위주로, 운동 후 30분 내에는 단백질과 탄수화물을 3:1 비율로 섭취하세요. 바나나, 닭가슴살, 현미밥 등이 좋은 선택입니다! 🍌🍗🍚
                       </p>
-                    </div>
+                          </div>
                     <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
                         <span className="text-green-600 mr-2">Q:</span>
@@ -1742,16 +1747,16 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 일반인은 체중 1kg당 0.8-1.2g, 근력 운동을 하는 분은 1.6-2.2g 정도가 권장됩니다. 예를 들어 70kg 남성이라면 하루 112-154g 정도의 단백질이 필요합니다! 📊
                       </p>
-                    </div>
-                  </div>
-                </div>
+                          </div>
+                        </div>
+                          </div>
 
                 {/* 부상 예방 FAQ */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
                     <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
                       <span className="text-white text-sm">🛡️</span>
-                    </div>
+                          </div>
                     부상 예방
                   </h3>
                   <div className="space-y-4">
@@ -1763,7 +1768,7 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 절대적으로 필요합니다! 5-10분간의 가벼운 유산소와 동적 스트레칭으로 근육 온도를 높이고 관절 가동성을 증가시켜 부상을 예방하세요! 🔥
                       </p>
-                    </div>
+                        </div>
                     <div className="bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-gray-800 text-lg mb-2 flex items-center">
                         <span className="text-green-600 mr-2">Q:</span>
@@ -1772,9 +1777,9 @@ const JwonderWorkOut = () => {
                       <p className="text-gray-700 font-semibold pl-6">
                         <span className="text-blue-600 font-black">A:</span> 즉시 운동을 중단하고 휴식을 취하세요. 근육피로와 부상은 다릅니다. 48시간 후에도 통증이 지속되면 전문의와 상담하는 것이 좋습니다! ⚠️
                       </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
                 {/* 운동 효과 FAQ */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
@@ -1816,7 +1821,7 @@ const JwonderWorkOut = () => {
                 <h3 className="text-2xl font-black text-black mb-6 cartoon-text text-center">더 궁금한 것이 있으신가요?</h3>
                 
                 {!showConsultationForm ? (
-                  <div className="text-center">
+                    <div className="text-center">
                     <div className="bg-gradient-to-r from-violet-300 to-purple-300 rounded-3xl p-6 border-4 border-black shadow-cartoon inline-block transform hover:scale-105 transition-all">
                       <div className="text-4xl mb-3">🎯</div>
                       <p className="font-black text-black text-lg mb-2">개인 맞춤 상담</p>
@@ -1856,8 +1861,8 @@ const JwonderWorkOut = () => {
                           className="w-full p-3 border-2 border-black rounded-xl font-semibold"
                           placeholder="25"
                         />
-                      </div>
                     </div>
+                  </div>
 
                     <div className="grid md:grid-cols-2 gap-4 mb-4">
                       <div>
@@ -1879,8 +1884,8 @@ const JwonderWorkOut = () => {
                           className="w-full p-3 border-2 border-black rounded-xl font-semibold"
                           placeholder="010-1234-5678"
                         />
-                      </div>
                     </div>
+                  </div>
 
                     <div className="grid md:grid-cols-2 gap-4 mb-4">
                       <div>
@@ -1897,7 +1902,7 @@ const JwonderWorkOut = () => {
                           <option value="중급">중급 (6개월-2년)</option>
                           <option value="고급">고급 (2년 이상)</option>
                         </select>
-                      </div>
+                </div>
                       <div>
                         <label className="block text-sm font-bold text-gray-700 mb-1">운동 목표</label>
                         <select
@@ -1914,8 +1919,8 @@ const JwonderWorkOut = () => {
                           <option value="재활">재활 운동</option>
                           <option value="기타">기타</option>
                         </select>
-                      </div>
-                    </div>
+              </div>
+            </div>
 
                     <div className="mb-6">
                       <label className="block text-sm font-bold text-gray-700 mb-1">상담 내용</label>
@@ -1925,7 +1930,7 @@ const JwonderWorkOut = () => {
                         className="w-full p-3 border-2 border-black rounded-xl font-semibold h-24 resize-none"
                         placeholder="궁금한 점이나 상담받고 싶은 내용을 자유롭게 작성해주세요!"
                       />
-                    </div>
+          </div>
 
                     <div className="flex gap-3 justify-center">
                       <button
@@ -1994,26 +1999,26 @@ const JwonderWorkOut = () => {
                       <h4 className="font-black text-black text-lg mb-2">Full Body A 🏃</h4>
                       <p className="font-semibold text-gray-800">스쿼트, 벤치프레스, 로우</p>
                       <p className="text-sm text-gray-600 font-medium">3세트 × 8-12회</p>
-                    </div>
+                            </div>
                     <div className="bg-gradient-to-r from-emerald-300 to-teal-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">Full Body B 🤸</h4>
                       <p className="font-semibold text-gray-800">데드리프트, 밀리터리프레스</p>
                       <p className="text-sm text-gray-600 font-medium">3세트 × 8-12회</p>
-                    </div>
+                          </div>
                     <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">주간 스케줄 📅</h4>
                       <p className="font-semibold text-gray-800">월수금 - A/B 번갈아가며</p>
                       <p className="text-sm text-gray-600 font-medium">총 12주 프로그램</p>
-                    </div>
-                  </div>
-                </div>
+                          </div>
+                        </div>
+                            </div>
 
                 {/* 중급자 프로그램 */}
                 <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
                     <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
                       <Zap className="w-5 h-5 text-white" />
-                    </div>
+                          </div>
                     중급자 프로그램
                   </h3>
                   <div className="space-y-4">
@@ -2021,12 +2026,12 @@ const JwonderWorkOut = () => {
                       <h4 className="font-black text-black text-lg mb-2">상체의 날 💪</h4>
                       <p className="font-semibold text-gray-800">벤치, 로우, 딥스, 풀업</p>
                       <p className="text-sm text-gray-600 font-medium">4세트 × 6-10회</p>
-                    </div>
+                          </div>
                     <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">하체의 날 🦵</h4>
                       <p className="font-semibold text-gray-800">스쿼트, 데드, 런지</p>
                       <p className="text-sm text-gray-600 font-medium">4세트 × 6-10회</p>
-                    </div>
+                        </div>
                     <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">Push/Pull 분할 🔄</h4>
                       <p className="font-semibold text-gray-800">주 6일 훈련</p>
@@ -2048,20 +2053,20 @@ const JwonderWorkOut = () => {
                       <h4 className="font-black text-black text-lg mb-2">피어의딩 🔥</h4>
                       <p className="font-semibold text-gray-800">강도 변화와 볼륨 조절</p>
                       <p className="text-sm text-gray-600 font-medium">5세트 × 3-8회</p>
-                    </div>
+                        </div>
                     <div className="bg-gradient-to-r from-rose-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">DUP 트레이닝 📊</h4>
                       <p className="font-semibold text-gray-800">일일 언듈레이팅</p>
                       <p className="text-sm text-gray-600 font-medium">파워/근력/근비대</p>
-                    </div>
+                        </div>
                     <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">경기 준비 🏆</h4>
                       <p className="font-semibold text-gray-800">파워리프팅 특화</p>
                       <p className="text-sm text-gray-600 font-medium">20주 맥시사이클</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                        </div>
+                      </div>
 
               {/* 특수 프로그램 섹션 */}
               <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
@@ -2121,7 +2126,7 @@ const JwonderWorkOut = () => {
                 
                 <h3 className="text-2xl font-black text-black mb-6 cartoon-text">프로그램 선택 가이드</h3>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
+                <div className="space-y-4">
                     <div className="bg-gradient-to-r from-blue-300 to-cyan-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">운동 경험별 🎯</h4>
                       <ul className="font-semibold text-gray-800 space-y-1 text-sm">
@@ -2129,7 +2134,7 @@ const JwonderWorkOut = () => {
                         <li>• 6개월-2년: 중급자 프로그램</li>
                         <li>• 2년 이상: 고급자 프로그램</li>
                       </ul>
-                    </div>
+                      </div>
                     <div className="bg-gradient-to-r from-purple-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">시간별 선택 ⏰</h4>
                       <ul className="font-semibold text-gray-800 space-y-1 text-sm">
@@ -2137,8 +2142,8 @@ const JwonderWorkOut = () => {
                         <li>• 주 4-5일: Upper/Lower</li>
                         <li>• 주 6일: Push/Pull/Legs</li>
                       </ul>
-                    </div>
-                  </div>
+                        </div>
+                      </div>
                   <div className="space-y-4">
                     <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black">
                       <h4 className="font-black text-black text-lg mb-2">목표별 추천 🎪</h4>
@@ -2155,12 +2160,12 @@ const JwonderWorkOut = () => {
                         <li>• 홈짐: 홈트레이닝</li>
                         <li>• 부상 있음: 재활 트레이닝</li>
                       </ul>
+                  </div>
+                      </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
         );
       case 'strength':
         return (
@@ -2274,8 +2279,8 @@ const JwonderWorkOut = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-
+                </div>
+                
               <div className="mt-6 bg-gradient-to-r from-rose-300 to-pink-300 rounded-3xl p-6 border-4 border-black shadow-cartoon">
                 <h3 className="text-2xl font-black text-black cartoon-text mb-4 text-center">📅 분할 훈련</h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -2808,6 +2813,15 @@ ${consultationForm.message || '별도 문의사항 없음'}
     console.log('JwonderWorkOut 컴포넌트가 마운트되었습니다.');
   }, []);
 
+  // 페이지 로드 시 모달 자동 열기
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(true);
+    }, 1500); // 1.5초 후 모달 열기
+
+    return () => clearTimeout(timer);
+  }, []);
+
   if (selectedCard) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-50 to-pink-100 relative overflow-hidden">
@@ -2826,7 +2840,7 @@ ${consultationForm.message || '별도 문의사항 없음'}
             <div className="absolute top-40 left-1/3 w-4 h-4 bg-orange-400 rounded-full"></div>
             <div className="absolute top-60 right-1/3 w-3 h-3 bg-cyan-400 rounded-full"></div>
           </div>
-
+          
           {/* 클래식 카툰풍 효과음 텍스트들 */}
           <div className="absolute top-16 left-8 text-6xl font-black text-red-400/25 rotate-12 select-none pointer-events-none animate-pulse">WORKOUT!</div>
           <div className="absolute top-32 right-12 text-4xl font-black text-blue-400/25 -rotate-12 select-none pointer-events-none animate-bounce">STRONG!</div>
@@ -2860,6 +2874,15 @@ ${consultationForm.message || '별도 문의사항 없음'}
                     <h1 className="text-4xl font-black text-black cartoon-text">JWONDER</h1>
                     <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
                   </div>
+                  
+                  {/* 3대운동 모달 버튼 */}
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="ml-4 px-4 py-2 bg-gradient-to-r from-purple-400 to-pink-400 text-black rounded-2xl border-3 border-black font-bold text-sm hover:from-purple-500 hover:to-pink-500 transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                    aria-label="3대운동 정보 보기"
+                  >
+                    🏋️‍♂️ BIG 3
+                  </button>
                 </div>
               </div>
             </div>
@@ -2934,7 +2957,7 @@ ${consultationForm.message || '별도 문의사항 없음'}
           <div className="absolute top-40 left-1/3 w-4 h-4 bg-orange-400 rounded-full"></div>
           <div className="absolute top-60 right-1/3 w-3 h-3 bg-cyan-400 rounded-full"></div>
         </div>
-
+        
         {/* 클래식 카툰풍 효과음 텍스트들 - 더 크고 대담한 스타일 */}
         <div className="absolute top-16 left-8 text-7xl font-black text-red-400/30 rotate-12 select-none pointer-events-none animate-pulse transform hover:scale-110 transition-all duration-300">BOOM!</div>
         <div className="absolute top-32 right-12 text-5xl font-black text-blue-400/30 -rotate-12 select-none pointer-events-none animate-bounce transform hover:scale-110 transition-all duration-300">POW!</div>
@@ -3070,6 +3093,12 @@ ${consultationForm.message || '별도 문의사항 없음'}
           </div>
         </div>
       </footer>
+      
+      {/* 3대운동 모달 */}
+      <BigThreeModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 };
