@@ -11,7 +11,8 @@ import {
   Apple,
   X,
   Users,
-  Calendar
+  Calendar,
+  Zap
 } from 'lucide-react';
 
 // 타입 정의
@@ -1955,32 +1956,208 @@ const JwonderWorkOut = () => {
         return (
           <div className="p-6 space-y-6 relative">
             {/* 카툰풍 배경 장식 요소들 */}
-            <div className="absolute top-20 right-20 text-4xl text-purple-400/40 animate-bounce">🤔</div>
-            <div className="absolute bottom-20 left-20 text-3xl text-pink-400/40 animate-pulse">❓</div>
-            <div className="absolute top-1/2 left-1/2 text-2xl text-blue-400/40 animate-ping transform -translate-x-1/2 -translate-y-1/2">✨</div>
+            <div className="absolute top-10 left-14 text-3xl text-blue-400/40 animate-bounce">📋</div>
+            <div className="absolute bottom-16 right-18 text-2xl text-purple-400/40 animate-pulse">💪</div>
+            <div className="absolute top-1/3 right-10 text-xl text-indigo-400/40 animate-ping">⚡</div>
             
-            <div className="bg-gradient-to-br from-purple-200/90 to-pink-300/90 backdrop-blur-xl rounded-3xl p-12 border-4 border-black shadow-cartoon relative overflow-hidden">
+            <div className="bg-gradient-to-br from-blue-200/90 to-purple-300/90 backdrop-blur-xl rounded-3xl p-8 border-4 border-black shadow-cartoon relative overflow-hidden">
               {/* 카툰풍 말풍선 꼬리 */}
-              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-purple-200 to-pink-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
+              <div className="absolute -top-4 left-12 w-8 h-8 bg-gradient-to-br from-blue-200 to-purple-300 border-l-4 border-t-4 border-black transform rotate-45"></div>
               
               {/* 카툰풍 배경 패턴 */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full -translate-y-16 translate-x-16"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-300/30 rounded-full translate-y-12 -translate-x-12"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-cyan-300/30 rounded-full translate-y-12 -translate-x-12"></div>
               
-              <div className="text-center relative z-10">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-black shadow-cartoon transform hover:rotate-12 transition-all duration-300">
-                  <span className="text-4xl">🎭</span>
+              <div className="flex items-center mb-6 relative z-10">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mr-6 border-4 border-black shadow-cartoon transform hover:rotate-3 transition-all duration-300">
+                  <BookOpen className="w-10 h-10 text-white drop-shadow-lg" />
                 </div>
-                <h2 className="text-5xl font-black text-black cartoon-text mb-4">OOPS!</h2>
-                <p className="text-2xl font-bold text-purple-800 mb-6">🎪 준비 중인 콘텐츠입니다! 🎪</p>
-                <div className="text-xl text-gray-800 font-semibold">
-                  <p className="mb-2">이 페이지는 아직 개발 중이에요! 😅</p>
-                  <p>곧 멋진 콘텐츠로 찾아뵐게요! 🚀</p>
+                <div>
+                  <h2 className="text-4xl font-black text-black cartoon-text mb-2">운동 프로그램</h2>
+                  <p className="text-blue-800 font-bold text-xl">💪 체계적인 훈련으로 목표 달성! 💪</p>
+                  {/* 카툰풍 효과음 */}
+                  <div className="absolute -top-2 right-4 text-2xl font-black text-green-500/60 rotate-12 animate-pulse">POWER!</div>
                 </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 relative z-10">
+                {/* 초보자 프로그램 */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <Target className="w-5 h-5 text-white" />
+                    </div>
+                    초보자 프로그램
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">Full Body A 🏃</h4>
+                      <p className="font-semibold text-gray-800">스쿼트, 벤치프레스, 로우</p>
+                      <p className="text-sm text-gray-600 font-medium">3세트 × 8-12회</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-emerald-300 to-teal-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">Full Body B 🤸</h4>
+                      <p className="font-semibold text-gray-800">데드리프트, 밀리터리프레스</p>
+                      <p className="text-sm text-gray-600 font-medium">3세트 × 8-12회</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-teal-300 to-cyan-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">주간 스케줄 📅</h4>
+                      <p className="font-semibold text-gray-800">월수금 - A/B 번갈아가며</p>
+                      <p className="text-sm text-gray-600 font-medium">총 12주 프로그램</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 중급자 프로그램 */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <Zap className="w-5 h-5 text-white" />
+                    </div>
+                    중급자 프로그램
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">상체의 날 💪</h4>
+                      <p className="font-semibold text-gray-800">벤치, 로우, 딥스, 풀업</p>
+                      <p className="text-sm text-gray-600 font-medium">4세트 × 6-10회</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">하체의 날 🦵</h4>
+                      <p className="font-semibold text-gray-800">스쿼트, 데드, 런지</p>
+                      <p className="text-sm text-gray-600 font-medium">4세트 × 6-10회</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">Push/Pull 분할 🔄</h4>
+                      <p className="font-semibold text-gray-800">주 6일 훈련</p>
+                      <p className="text-sm text-gray-600 font-medium">16주 프로그램</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 고급자 프로그램 */}
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
+                    <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    고급자 프로그램
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-red-300 to-rose-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">피어의딩 🔥</h4>
+                      <p className="font-semibold text-gray-800">강도 변화와 볼륨 조절</p>
+                      <p className="text-sm text-gray-600 font-medium">5세트 × 3-8회</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-rose-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">DUP 트레이닝 📊</h4>
+                      <p className="font-semibold text-gray-800">일일 언듈레이팅</p>
+                      <p className="text-sm text-gray-600 font-medium">파워/근력/근비대</p>
+                    </div>
+                    <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">경기 준비 🏆</h4>
+                      <p className="font-semibold text-gray-800">파워리프팅 특화</p>
+                      <p className="text-sm text-gray-600 font-medium">20주 맥시사이클</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 특수 프로그램 섹션 */}
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                {/* 카툰풍 장식 */}
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">⭐</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">🎯</div>
                 
-                {/* 카툰풍 효과음 */}
-                <div className="absolute -top-8 -right-4 text-3xl font-black text-orange-500/60 rotate-12 animate-pulse">COMING SOON!</div>
-                <div className="absolute -bottom-4 -left-8 text-2xl font-black text-blue-500/60 -rotate-12 animate-bounce">STAY TUNED!</div>
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">특수 목적 프로그램</h3>
+                <div className="grid md:grid-cols-4 gap-6">
+                  <div className="bg-gradient-to-br from-violet-300 to-purple-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">홈트레이닝 🏠</h4>
+                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                      <ul className="font-bold text-gray-800 space-y-2 text-sm">
+                        <li>• 맨몸 운동</li>
+                        <li>• 밴드 활용</li>
+                        <li>• 최소 장비</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-blue-300 to-indigo-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">컷팅 프로그램 ✂️</h4>
+                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                      <ul className="font-bold text-gray-800 space-y-2 text-sm">
+                        <li>• 고반복 훈련</li>
+                        <li>• HIIT 포함</li>
+                        <li>• 체지방 감소</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-300 to-emerald-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">벌킹 프로그램 📈</h4>
+                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                      <ul className="font-bold text-gray-800 space-y-2 text-sm">
+                        <li>• 고중량 포커스</li>
+                        <li>• 컴파운드 위주</li>
+                        <li>• 근육량 증가</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-yellow-300 to-orange-400 rounded-3xl p-6 border-4 border-black shadow-cartoon transform hover:scale-105 hover:rotate-2 transition-all duration-300">
+                    <h4 className="font-black text-black text-xl mb-3 cartoon-text">재활 트레이닝 🩹</h4>
+                    <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                      <ul className="font-bold text-gray-800 space-y-2 text-sm">
+                        <li>• 부상 예방</li>
+                        <li>• 기능성 운동</li>
+                        <li>• 점진적 강화</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 프로그램 선택 가이드 */}
+              <div className="mt-6 bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon relative overflow-hidden">
+                <div className="absolute top-2 right-2 text-2xl animate-bounce">🤔</div>
+                <div className="absolute bottom-2 left-2 text-xl animate-pulse">💡</div>
+                
+                <h3 className="text-2xl font-black text-black mb-6 cartoon-text">프로그램 선택 가이드</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-blue-300 to-cyan-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">운동 경험별 🎯</h4>
+                      <ul className="font-semibold text-gray-800 space-y-1 text-sm">
+                        <li>• 0-6개월: 초보자 프로그램</li>
+                        <li>• 6개월-2년: 중급자 프로그램</li>
+                        <li>• 2년 이상: 고급자 프로그램</li>
+                      </ul>
+                    </div>
+                    <div className="bg-gradient-to-r from-purple-300 to-pink-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">시간별 선택 ⏰</h4>
+                      <ul className="font-semibold text-gray-800 space-y-1 text-sm">
+                        <li>• 주 3일: Full Body</li>
+                        <li>• 주 4-5일: Upper/Lower</li>
+                        <li>• 주 6일: Push/Pull/Legs</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-r from-green-300 to-emerald-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">목표별 추천 🎪</h4>
+                      <ul className="font-semibold text-gray-800 space-y-1 text-sm">
+                        <li>• 근력 향상: 고급자 + 저반복</li>
+                        <li>• 근육량: 중급자 + 중반복</li>
+                        <li>• 체중 감량: 컷팅 + 고반복</li>
+                      </ul>
+                    </div>
+                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black">
+                      <h4 className="font-black text-black text-lg mb-2">환경별 선택 🏋️</h4>
+                      <ul className="font-semibold text-gray-800 space-y-1 text-sm">
+                        <li>• 헬스장: 모든 프로그램</li>
+                        <li>• 홈짐: 홈트레이닝</li>
+                        <li>• 부상 있음: 재활 트레이닝</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
