@@ -165,7 +165,7 @@ const JwonderWorkOut = () => {
     age: '',
     height: '',
     weight: '',
-    activityLevel: '1.55'
+    activityLevel: 'moderate'
   });
   const [nutritionResults, setNutritionResults] = useState<{
     bmr: number;
@@ -249,7 +249,7 @@ const JwonderWorkOut = () => {
   const calculateNutrition = () => {
     const { gender, age, height, weight, activityLevel } = nutritionForm;
     
-    if (!age || !height || !weight) {
+    if (!age || !height || !weight || !activityLevel) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
@@ -257,7 +257,17 @@ const JwonderWorkOut = () => {
     const ageNum = parseInt(age);
     const heightNum = parseFloat(height);
     const weightNum = parseFloat(weight);
-    const activityNum = parseFloat(activityLevel);
+    
+    // 활동량 문자열을 숫자로 변환
+    const activityMap = {
+      'sedentary': 1.2,
+      'light': 1.375,
+      'moderate': 1.55,
+      'active': 1.725,
+      'very_active': 1.9
+    };
+    
+    const activityNum = activityMap[activityLevel as keyof typeof activityMap] || 1.55;
 
     if (ageNum <= 0 || heightNum <= 0 || weightNum <= 0) {
       alert('올바른 값을 입력해주세요.');
@@ -307,7 +317,7 @@ const JwonderWorkOut = () => {
       age: '',
       height: '',
       weight: '',
-      activityLevel: '1.55'
+      activityLevel: 'moderate'
     });
     setNutritionResults(null);
   };
