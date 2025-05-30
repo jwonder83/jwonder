@@ -91,18 +91,14 @@ const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose, onExerci
       >
         {/* 파티클 애니메이션 */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(12)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
-              }}
-            />
-          ))}
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-1/4 left-1/4 animate-pulse"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-3/4 left-3/4 [animation-delay:0.5s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-1/2 left-1/2 [animation-delay:1s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-1/3 left-2/3 [animation-delay:1.5s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-2/3 left-1/3 [animation-delay:2s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-1/5 left-4/5 [animation-delay:0.3s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-4/5 left-1/5 [animation-delay:0.8s]"></div>
+          <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full animate-ping opacity-30 top-3/5 left-3/5 [animation-delay:1.3s]"></div>
         </div>
       </div>
       
@@ -119,16 +115,14 @@ const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose, onExerci
           <div className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 border-b-4 border-black rounded-t-2xl overflow-hidden">
             {/* 헤더 패턴 */}
             <div className="absolute inset-0 opacity-15">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-4 h-4 border border-black rotate-45"
-                  style={{
-                    left: `${i * 12}%`,
-                    top: `${Math.sin(i) * 10 + 50}%`
-                  }}
-                />
-              ))}
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-0 top-1/2"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[12%] top-[45%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[24%] top-[55%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[36%] top-[50%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[48%] top-[60%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[60%] top-[45%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[72%] top-[55%]"></div>
+              <div className="absolute w-4 h-4 border border-black rotate-45 left-[84%] top-[50%]"></div>
             </div>
             
             <div className="relative flex items-center justify-between p-3">
@@ -159,14 +153,14 @@ const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose, onExerci
             {exercises.map((exercise, index) => {
               const IconComponent = exercise.icon
               const isSelected = selectedExercise === exercise.id
+              const delayClass = index === 0 ? '' : index === 1 ? '[transition-delay:100ms]' : '[transition-delay:200ms]'
               
               return (
                 <div
                   key={exercise.name}
-                  className={`transform transition-all duration-300 ${
+                  className={`transform transition-all duration-300 ${delayClass} ${
                     animationPhase === 1 ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                   }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <button
                     onClick={() => handleExerciseClick(exercise.id)}
