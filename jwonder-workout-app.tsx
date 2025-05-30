@@ -939,25 +939,32 @@ const JwonderWorkOut = () => {
               </ul>
             </div>
 
-                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-cartoon hover:shadow-cartoon-hover transition-all duration-300 transform hover:scale-105">
-                  <h3 className="text-2xl font-black text-black mb-4 flex items-center cartoon-text">
-                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center mr-3 border-2 border-black">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    발전 단계
-                  </h3>
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300 transform hover:scale-105">
+                  <h3 className="text-2xl font-black text-red-600 cartoon-text mb-4 text-center">🔥 체중 감량</h3>
                   <div className="space-y-4">
-                    <div className="bg-gradient-to-r from-orange-300 to-red-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">초급 🌱</h4>
-                      <p className="font-semibold text-gray-800">자체중량 푸시업 → 인클라인 벤치</p>
+                    <div className="bg-red-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] transition-all duration-200">
+                      <h4 className="font-black text-red-800 mb-2">🌅 아침</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🥚 계란 스크램블</li>
+                        <li>🍞 토스트 2장</li>
+                        <li>🧃 과일 주스</li>
+                      </ul>
                     </div>
-                    <div className="bg-gradient-to-r from-red-300 to-pink-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">중급 🔥</h4>
-                      <p className="font-semibold text-gray-800">플랫 벤치프레스 → 디클라인</p>
+                    <div className="bg-sky-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(14,165,233,1)] transition-all duration-200">
+                      <h4 className="font-black text-sky-800 mb-2">🌞 점심</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🍱 균형잡힌 도시락</li>
+                        <li>🍚 현미밥</li>
+                        <li>🍜 된장국</li>
+                      </ul>
                     </div>
-                    <div className="bg-gradient-to-r from-pink-300 to-purple-300 rounded-2xl p-4 border-3 border-black transform hover:scale-105 transition-all">
-                      <h4 className="font-black text-black text-lg mb-2">고급 💪</h4>
-                      <p className="font-semibold text-gray-800">파워리프팅 기법 → 최대중량</p>
+                    <div className="bg-cyan-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(6,182,212,1)] transition-all duration-200">
+                      <h4 className="font-black text-cyan-800 mb-2">🌙 저녁</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🍗 닭고기 볶음</li>
+                        <li>🥬 야채 무침</li>
+                        <li>🍲 미역국</li>
+                      </ul>
                     </div>
                   </div>
                 </div>
@@ -2487,28 +2494,28 @@ const JwonderWorkOut = () => {
                 <div className="bg-white rounded-3xl p-6 border-3 border-black shadow-cartoon">
                   <h3 className="text-2xl font-black text-red-600 cartoon-text mb-4 text-center">🔥 체중 감량</h3>
                   <div className="space-y-4">
-                    <div className="bg-red-50 rounded-2xl p-4 border-2 border-red-200">
-                      <h4 className="font-bold text-red-700 mb-2">🌅 아침</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 오트밀 + 베리류</li>
-                        <li>• 그릭요거트</li>
-                        <li>• 아몬드 한 줌</li>
+                    <div className="bg-red-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(220,38,38,1)] transition-all duration-200">
+                      <h4 className="font-black text-red-800 mb-2">🌅 아침</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🥣 오트밀 + 베리류</li>
+                        <li>🥛 그릭요거트</li>
+                        <li>🥜 아몬드 한 줌</li>
                       </ul>
                     </div>
-                    <div className="bg-orange-50 rounded-2xl p-4 border-2 border-orange-200">
-                      <h4 className="font-bold text-orange-700 mb-2">🌞 점심</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 닭가슴살 샐러드</li>
-                        <li>• 현미밥 반공기</li>
-                        <li>• 채소 스프</li>
+                    <div className="bg-orange-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(251,146,60,1)] transition-all duration-200">
+                      <h4 className="font-black text-orange-800 mb-2">🌞 점심</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🥗 닭가슴살 샐러드</li>
+                        <li>🍚 현미밥 반공기</li>
+                        <li>🍲 채소 스프</li>
                       </ul>
                     </div>
-                    <div className="bg-green-50 rounded-2xl p-4 border-2 border-green-200">
-                      <h4 className="font-bold text-green-700 mb-2">🌙 저녁</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 생선구이</li>
-                        <li>• 스팀 브로콜리</li>
-                        <li>• 토마토 샐러드</li>
+                    <div className="bg-green-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(34,197,94,1)] transition-all duration-200">
+                      <h4 className="font-black text-green-800 mb-2">🌙 저녁</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🐟 생선구이</li>
+                        <li>🥦 스팀 브로콜리</li>
+                        <li>🍅 토마토 샐러드</li>
                       </ul>
                     </div>
                   </div>
@@ -2517,79 +2524,79 @@ const JwonderWorkOut = () => {
                 <div className="bg-white rounded-3xl p-6 border-3 border-black shadow-cartoon">
                   <h3 className="text-2xl font-black text-blue-600 cartoon-text mb-4 text-center">⚖️ 체중 유지</h3>
                   <div className="space-y-4">
-                    <div className="bg-blue-50 rounded-2xl p-4 border-2 border-blue-200">
-                      <h4 className="font-bold text-blue-700 mb-2">🌅 아침</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 계란 스크램블</li>
-                        <li>• 토스트 2장</li>
-                        <li>• 과일 주스</li>
+                    <div className="bg-blue-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(59,130,246,1)] transition-all duration-200">
+                      <h4 className="font-black text-blue-800 mb-2">🌅 아침</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🥚 계란 스크램블</li>
+                        <li>🍞 토스트 2장</li>
+                        <li>🧃 과일 주스</li>
                       </ul>
                     </div>
-                    <div className="bg-sky-50 rounded-2xl p-4 border-2 border-sky-200">
-                      <h4 className="font-bold text-sky-700 mb-2">🌞 점심</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 균형잡힌 도시락</li>
-                        <li>• 현미밥</li>
-                        <li>• 된장국</li>
+                    <div className="bg-sky-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(14,165,233,1)] transition-all duration-200">
+                      <h4 className="font-black text-sky-800 mb-2">🌞 점심</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🍱 균형잡힌 도시락</li>
+                        <li>🍚 현미밥</li>
+                        <li>🍜 된장국</li>
                       </ul>
                     </div>
-                    <div className="bg-cyan-50 rounded-2xl p-4 border-2 border-cyan-200">
-                      <h4 className="font-bold text-cyan-700 mb-2">🌙 저녁</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 닭고기 볶음</li>
-                        <li>• 야채 무침</li>
-                        <li>• 미역국</li>
+                    <div className="bg-cyan-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(6,182,212,1)] transition-all duration-200">
+                      <h4 className="font-black text-cyan-800 mb-2">🌙 저녁</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🍗 닭고기 볶음</li>
+                        <li>🥬 야채 무침</li>
+                        <li>🍲 미역국</li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-3xl p-6 border-3 border-black shadow-cartoon">
+                <div className="bg-white rounded-3xl p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300 transform hover:scale-105">
                   <h3 className="text-2xl font-black text-green-600 cartoon-text mb-4 text-center">💪 체중 증가</h3>
                   <div className="space-y-4">
-                    <div className="bg-green-50 rounded-2xl p-4 border-2 border-green-200">
-                      <h4 className="font-bold text-green-700 mb-2">🌅 아침</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 바나나 팬케이크</li>
-                        <li>• 프로틴 쉐이크</li>
-                        <li>• 견과류 믹스</li>
+                    <div className="bg-green-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(34,197,94,1)] transition-all duration-200">
+                      <h4 className="font-black text-green-800 mb-2">🌅 아침</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🥞 바나나 팬케이크</li>
+                        <li>🥤 프로틴 쉐이크</li>
+                        <li>🥜 견과류 믹스</li>
                       </ul>
                     </div>
-                    <div className="bg-emerald-50 rounded-2xl p-4 border-2 border-emerald-200">
-                      <h4 className="font-bold text-emerald-700 mb-2">🌞 점심</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 소고기 덮밥</li>
-                        <li>• 김치찌개</li>
-                        <li>• 치즈 김밥</li>
+                    <div className="bg-emerald-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(16,185,129,1)] transition-all duration-200">
+                      <h4 className="font-black text-emerald-800 mb-2">🌞 점심</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🍖 소고기 덮밥</li>
+                        <li>🥘 김치찌개</li>
+                        <li>🍙 치즈 김밥</li>
                       </ul>
                     </div>
-                    <div className="bg-teal-50 rounded-2xl p-4 border-2 border-teal-200">
-                      <h4 className="font-bold text-teal-700 mb-2">🌙 저녁</h4>
-                      <ul className="text-sm text-gray-700 space-y-1">
-                        <li>• 연어 스테이크</li>
-                        <li>• 아보카도 샐러드</li>
-                        <li>• 고구마</li>
+                    <div className="bg-teal-100 rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(20,184,166,1)] transition-all duration-200">
+                      <h4 className="font-black text-teal-800 mb-2">🌙 저녁</h4>
+                      <ul className="text-sm text-gray-800 font-bold space-y-1">
+                        <li>🐟 연어 스테이크</li>
+                        <li>🥑 아보카도 샐러드</li>
+                        <li>🍠 고구마</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 bg-gradient-to-r from-violet-300 to-purple-300 rounded-3xl p-6 border-4 border-black shadow-cartoon">
+              <div className="mt-6 bg-gradient-to-r from-violet-300 to-purple-300 rounded-3xl p-6 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-4px] hover:translate-y-[-4px] transition-all duration-300">
                 <h3 className="text-2xl font-black text-black cartoon-text mb-4 text-center">🥤 간식 & 팁</h3>
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                  <div className="bg-white rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(139,92,246,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200">
                     <h4 className="font-black text-violet-600 mb-3">✨ 건강한 간식</h4>
-                    <ul className="text-sm text-gray-700 font-semibold space-y-1">
+                    <ul className="text-sm text-gray-800 font-bold space-y-1">
                       <li>🥜 견과류 (아몬드, 호두)</li>
                       <li>🍎 신선한 과일</li>
                       <li>🥕 채소 스틱</li>
                       <li>🧀 치즈와 크래커</li>
                     </ul>
                   </div>
-                  <div className="bg-white rounded-2xl p-4 border-2 border-black">
+                  <div className="bg-white rounded-2xl p-4 border-3 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(147,51,234,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200">
                     <h4 className="font-black text-purple-600 mb-3">💡 식단 팁</h4>
-                    <ul className="text-sm text-gray-700 font-semibold space-y-1">
+                    <ul className="text-sm text-gray-800 font-bold space-y-1">
                       <li>💧 하루 2L 이상 물 마시기</li>
                       <li>⏰ 규칙적인 식사 시간</li>
                       <li>🍽️ 천천히 씹어 먹기</li>
