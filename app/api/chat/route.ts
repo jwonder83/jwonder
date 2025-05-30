@@ -67,12 +67,12 @@ export async function POST(request: Request) {
       response: response || '음... 뭔가 말이 꼬였네! 다시 말해줄래? 😅'
     })
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('❌ Gemini API 에러:', error)
     console.error('📊 에러 상세:', {
-      name: error?.name,
-      message: error?.message,
-      stack: error?.stack
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
     })
     
     // 에러 발생 시 재미있는 폴백 응답
