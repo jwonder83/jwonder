@@ -255,15 +255,11 @@ const BigThreeModal: React.FC<BigThreeModalProps> = ({ isOpen, onClose, onExerci
               
               {/* 장식 요소 */}
               <div className="flex justify-center space-x-2 mt-3">
-                {['⭐', '💪', '🔥', '⚡', '🏆'].map((emoji, i) => (
-                  <div
-                    key={i}
-                    className="text-xl animate-bounce"
-                    style={{ animationDelay: `${i * 0.2}s` }}
-                  >
-                    {emoji}
-                  </div>
-                ))}
+                <div className="text-xl animate-bounce">⭐</div>
+                <div className="text-xl animate-bounce [animation-delay:0.2s]">💪</div>
+                <div className="text-xl animate-bounce [animation-delay:0.4s]">🔥</div>
+                <div className="text-xl animate-bounce [animation-delay:0.6s]">⚡</div>
+                <div className="text-xl animate-bounce [animation-delay:0.8s]">🏆</div>
               </div>
             </div>
           </div>
