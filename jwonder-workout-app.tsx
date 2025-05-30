@@ -185,6 +185,9 @@ const JwonderWorkOut = () => {
   });
   const [isSubmittingConsultation, setIsSubmittingConsultation] = useState(false);
 
+  // 영양 계산기 목표 선택 상태
+  const [selectedGoal, setSelectedGoal] = useState<'weightLoss' | 'maintenance' | 'weightGain'>('maintenance');
+
   // BMR 계산 함수 (Mifflin-St Jeor 공식)
   const calculateBMR = (gender: string, weight: number, height: number, age: number): number => {
     if (gender === 'male') {
@@ -2211,13 +2214,16 @@ const JwonderWorkOut = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-bold text-gray-700 mb-1">목표</label>
-                      <input
-                        type="text"
-                        value={nutritionForm.weight}
-                        onChange={(e) => handleNutritionFormChange('weight', e.target.value)}
+                      <select
+                        value={selectedGoal}
+                        onChange={(e) => setSelectedGoal(e.target.value as 'weightLoss' | 'maintenance' | 'weightGain')}
                         className="w-full p-2 border-2 border-green-300 rounded-xl font-semibold"
-                        placeholder="체중 감량/유지/증가"
-                      />
+                        aria-label="목표 선택"
+                      >
+                        <option value="weightLoss">체중 감량</option>
+                        <option value="maintenance">체중 유지</option>
+                        <option value="weightGain">체중 증가</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -2228,18 +2234,25 @@ const JwonderWorkOut = () => {
                     <div className="space-y-4">
                       <div className="bg-lime-100 rounded-2xl p-4 border-2 border-lime-300">
                         <h4 className="font-black text-lime-800 mb-2">📊 일일 칼로리</h4>
-                        <p className="text-2xl font-black text-green-600">{nutritionResults.calories} kcal</p>
+                        <p className="text-2xl font-black text-green-600">{nutritionResults[selectedGoal].calories} kcal</p>
                       </div>
                       <div className="space-y-3">
                         <div className="bg-green-100 rounded-xl p-3 border-2 border-green-300">
-                          <span className="font-bold text-green-800">🥩 단백질: {nutritionResults.protein}g</span>
+                          <span className="font-bold text-green-800">🥩 단백질: {nutritionResults[selectedGoal].protein}g</span>
                         </div>
                         <div className="bg-emerald-100 rounded-xl p-3 border-2 border-emerald-300">
-                          <span className="font-bold text-emerald-800">🍚 탄수화물: {nutritionResults.carbs}g</span>
+                          <span className="font-bold text-emerald-800">🍚 탄수화물: {nutritionResults[selectedGoal].carbs}g</span>
                         </div>
                         <div className="bg-teal-100 rounded-xl p-3 border-2 border-teal-300">
-                          <span className="font-bold text-teal-800">🥑 지방: {nutritionResults.fat}g</span>
+                          <span className="font-bold text-teal-800">🥑 지방: {nutritionResults[selectedGoal].fat}g</span>
                         </div>
+                      </div>
+                      <div className="mt-4 bg-blue-50 rounded-2xl p-3 border-2 border-blue-200">
+                        <p className="text-sm text-blue-700 font-semibold text-center">
+                          {selectedGoal === 'weightLoss' && '🔥 체중 감량을 위한 영양소'}
+                          {selectedGoal === 'maintenance' && '⚖️ 체중 유지를 위한 영양소'}  
+                          {selectedGoal === 'weightGain' && '💪 체중 증가를 위한 영양소'}
+                        </p>
                       </div>
                     </div>
                   ) : (
