@@ -2890,10 +2890,6 @@ ${consultationForm.message || '별도 문의사항 없음'}
                     <p className="text-black font-bold text-lg">💪 Work Out! 💪</p>
                   </div>
                   
-                  <button
-                    className="ml-4 px-4 py-2 bg-gradient-to-r from-purple-400 to-pink-400 text-black rounded-2xl border-3 border-black font-bold text-sm hover:from-purple-500 hover:to-pink-500 transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transform hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                  >
-                  </button>
                 </div>
               </div>
             </div>
